@@ -169,6 +169,13 @@ require_once '../../middleware/Check_user_connexion.php';
     <div class="container-fluid">
         <div class="container ">
             <h1 class="display-4 text-uppercase text-center mb-5">Explorer les differents articles</h1>
+            <div class="row mb-4">
+                <div class="col-md-12 text-right">
+                    <a href="AjouterArticle__form.php" class="btn btn-primary">
+                        <i class="fas fa-plus-circle"></i> Ajouter un article
+                    </a>
+                </div>
+            </div>
             <div class="row">
                 <div class="col-md-4 mb-4">
                     <div class="card border-0"

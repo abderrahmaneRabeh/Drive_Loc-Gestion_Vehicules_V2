@@ -3,10 +3,10 @@ session_start();
 require_once '../../middleware/Check_user_connexion.php';
 require_once '../../Models/Theme.php';
 
-$Theme = new Theme();
-$ListThemes = $Theme->getThemes();
 
-
+if (isset($_GET['id_theme'])) {
+    $id_theme = $_GET['id_theme'];
+}
 
 ?>
 
@@ -17,7 +17,6 @@ $ListThemes = $Theme->getThemes();
     <meta charset="utf-8">
     <title>DRIVE-LOC -- List Themes</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <meta content="Free HTML Templates" name="keywords">
     <meta content="Free HTML Templates" name="description">
 
     <!-- Favicon -->
@@ -92,14 +91,14 @@ $ListThemes = $Theme->getThemes();
                         <a href="../../index.php" class="nav-item nav-link">Accueil</a>
                         <a href="../List_Voitures.php" class="nav-item nav-link">List Voitures</a>
                         <div class="nav-item dropdown">
-                            <a href="#" class="nav-link active dropdown-toggle" data-toggle="dropdown">
+                            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
                                 Blog
                             </a>
                             <div class="dropdown-menu rounded-0 m-0">
                                 <a href="./List_Articles.php" class="dropdown-item">
                                     List Articles
                                 </a>
-                                <a href="./List_Themes.php" class="dropdown-item active">List Thèmes</a>
+                                <a href="./List_Themes.php" class="dropdown-item">List Thèmes</a>
                             </div>
                         </div>
                         <a href="./List_VoituresCategory.php" class="nav-item nav-link">Categories</a>
@@ -165,18 +164,7 @@ $ListThemes = $Theme->getThemes();
             <h1 class="display-4 text-uppercase text-center mb-5">Explorer les differents themes</h1>
 
             <div class="row">
-                <?php foreach ($ListThemes as $theme): ?>
-                    <div class="col-lg-4 mb-2" id="<?= $theme['id_theme']; ?>">
-                        <div class="rent-item mb-4">
-                            <a href="./ThemeArticles.php?id_theme=<?= $theme['id_theme']; ?>"
-                                style="text-decoration: none;">
-                                <h4 class="text-uppercase mb-1"><?= $theme['theme_name']; ?></h4>
-                            </a>
-                            <div class="d-flex justify-content-center">
-                            </div>
-                        </div>
-                    </div>
-                <?php endforeach; ?>
+                <h1>test</h1>
             </div>
         </div>
     </div>
