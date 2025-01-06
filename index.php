@@ -86,6 +86,17 @@ Check_Home_Page();
                     <div class="navbar-nav ml-auto py-0">
                         <a href="index.html" class="nav-item nav-link active">Accueil</a>
                         <a href="./views/List_Voitures.php" class="nav-item nav-link">List Voitures</a>
+                        <div class="nav-item dropdown">
+                            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
+                                Blog
+                            </a>
+                            <div class="dropdown-menu rounded-0 m-0">
+                                <a href="./views/Blog/List_Articles.php" class="dropdown-item">
+                                    List Articles
+                                </a>
+                                <a href="./dashboard/admin/voiture.php" class="dropdown-item">List Thème</a>
+                            </div>
+                        </div>
                         <a href="./views/List_VoituresCategory.php" class="nav-item nav-link">Categories</a>
                         <?php if (isset($_SESSION['user']) && $_SESSION['role'] == 2): ?>
                             <div class="nav-item dropdown">
