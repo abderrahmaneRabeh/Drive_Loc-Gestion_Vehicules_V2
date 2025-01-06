@@ -4,7 +4,7 @@ class Database
 {
 
     private $host = 'localhost';
-    private $dbname = 'drivelocdb';
+    private $dbname = 'drivelock2db';
     private $userName = 'root';
     private $pw = '';
 

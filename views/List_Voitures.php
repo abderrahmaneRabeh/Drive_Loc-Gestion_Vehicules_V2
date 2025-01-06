@@ -361,7 +361,7 @@ $LignesSelectioner = ceil($totalLignes / $LigneParPage);
 
 
             input.value = '';
-            window.location.href = 'http://drive_loc-gestion_vehicules.test/views/List_Voitures.php';
+            window.location.href = "List_Voitures.php";
         });
 
     </script>
