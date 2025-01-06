@@ -1,11 +1,11 @@
 CREATE Table themes(
     id_theme INT PRIMARY KEY AUTO_INCREMENT,
-    theme_name VARCHAR(50),
+    theme_name VARCHAR(50)
 );
 
 CREATE Table tags(
     id_tag INT PRIMARY KEY AUTO_INCREMENT,
-    tag_name VARCHAR(50),
+    tag_name VARCHAR(50)
 );
 
 CREATE Table article_body(
@@ -13,7 +13,7 @@ CREATE Table article_body(
     subtitle_body VARCHAR(50),
     content_body VARCHAR(50),
     image_body VARCHAR(50),
-    video_body VARCHAR(50),
+    video_body VARCHAR(50)
 );
 
 CREATE Table articles(
@@ -35,7 +35,7 @@ CREATE Table tag_article(
     id_article INT,
     PRIMARY KEY (id_tag, id_article),
     FOREIGN KEY (id_tag) REFERENCES tags(id_tag) ON DELETE CASCADE,
-    FOREIGN KEY (id_article) REFERENCES articles(id_article) ON DELETE CASCADE,
+    FOREIGN KEY (id_article) REFERENCES articles(id_article) ON DELETE CASCADE
 );
 
 CREATE TABLE favorites(
@@ -43,7 +43,7 @@ CREATE TABLE favorites(
     id_utilisateur INT,
     id_article INT,
     FOREIGN KEY (id_utilisateur) REFERENCES utilisateurs(id_utilisateur) ON DELETE CASCADE,
-    FOREIGN KEY (id_article) REFERENCES articles(id_article) ON DELETE CASCADE,
+    FOREIGN KEY (id_article) REFERENCES articles(id_article) ON DELETE CASCADE
 );
 
 CREATE TABLE commentaires(
@@ -52,5 +52,5 @@ CREATE TABLE commentaires(
     id_article INT,
     commentaire VARCHAR(50),
     FOREIGN KEY (id_utilisateur) REFERENCES utilisateurs(id_utilisateur) ON DELETE CASCADE,
-    FOREIGN KEY (id_article) REFERENCES articles(id_article) ON DELETE CASCADE,
+    FOREIGN KEY (id_article) REFERENCES articles(id_article) ON DELETE CASCADE
 );

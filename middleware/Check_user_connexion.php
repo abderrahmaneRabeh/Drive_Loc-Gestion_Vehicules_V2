@@ -46,3 +46,11 @@ function AjouterFormCheck()
     }
 }
 
+
+function checkBlogPage()
+{
+    if (!isset($_SESSION['user'])) {
+        header("Location: ../views/Se_connecter.php?msg=veuillez vous connecter pour accéder à la page");
+        exit;
+    }
+}

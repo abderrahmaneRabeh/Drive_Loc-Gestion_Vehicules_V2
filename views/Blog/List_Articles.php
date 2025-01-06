@@ -1,3 +1,9 @@
+<?php
+session_start();
+require_once '../../middleware/Check_user_connexion.php';
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -9,7 +15,7 @@
     <meta content="Free HTML Templates" name="description">
 
     <!-- Favicon -->
-    <link href="../../../../assets/img/vendor-7.png" rel="icon">
+    <link href="../../assets/img/vendor-7.png" rel="icon">
 
     <!-- Google Web Fonts -->
     <link rel="preconnect" href="https://fonts.gstatic.com">
@@ -20,14 +26,26 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.0/css/all.min.css" rel="stylesheet">
 
     <!-- Libraries Stylesheet -->
-    <link href="../../../../assets/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
-    <link href="../../../../assets/lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet" />
+    <link href="../../assets/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+    <link href="../../assets/lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet" />
 
     <!-- Customized Bootstrap Stylesheet -->
-    <link href="../../../../assets/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../../assets/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Template Stylesheet -->
-    <link href="../../../../assets/css/style.css" rel="stylesheet">
+    <link href="../../assets/css/style.css" rel="stylesheet">
+
+    <style>
+        .card:hover {
+            transform: translateY(-5px);
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+        }
+
+        .card-title {
+            margin-bottom: 10px;
+        }
+    </style>
 </head>
 
 <body>
@@ -78,19 +96,19 @@
                 <div class="collapse navbar-collapse justify-content-between px-3" id="navbarCollapse">
                     <div class="navbar-nav ml-auto py-0">
                         <a href="../../index.php" class="nav-item nav-link">Accueil</a>
-                        <a href="./List_Voitures.php" class="nav-item nav-link">List Voitures</a>
+                        <a href="../List_Voitures.php" class="nav-item nav-link">List Voitures</a>
                         <div class="nav-item dropdown">
                             <a href="#" class="nav-link active dropdown-toggle" data-toggle="dropdown">
                                 Blog
                             </a>
                             <div class="dropdown-menu rounded-0 m-0">
-                                <a href="./List_Articles.php" class="dropdown-item active">
+                                <a href="../List_Articles.php" class="dropdown-item active">
                                     List Articles
                                 </a>
                                 <a href="./List_Themes.php" class="dropdown-item">List Thèmes</a>
                             </div>
                         </div>
-                        <a href="./List_VoituresCategory.php" class="nav-item nav-link">Categories</a>
+                        <a href="../List_VoituresCategory.php" class="nav-item nav-link">Categories</a>
                         <?php if (isset($_SESSION['user']) && $_SESSION['role'] == 2): ?>
                             <div class="nav-item dropdown">
                                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
@@ -148,12 +166,28 @@
 
 
     <!-- Rent A Car Start -->
-    <div class="container-fluid py-5">
-        <div class="container pt-5 pb-3">
+    <div class="container-fluid">
+        <div class="container ">
             <h1 class="display-4 text-uppercase text-center mb-5">Explorer les differents articles</h1>
-
             <div class="row">
-                <h1>test</h1>
+                <div class="col-md-4 mb-4">
+                    <div class="card border-0"
+                        style="overflow: hidden; border-radius: 5px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
+                        <img class="card-img-top"
+                            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRbsmgmGx8fFFQgVthYZ_UN-F4d2KXmKjjZfA&s"
+                            alt="Image de l'article" style="height: 180px; object-fit: cover;">
+                        <div class="card-body" style="padding: 20px;">
+                            <h5 class="card-title text-dark" style="font-weight: 600; font-size: 1.2rem;">Titre
+                                captivant de l'article</h5>
+                            <p class="card-text text-secondary" style="font-size: 0.95rem; line-height: 1.5;">
+                                Découvrez un aperçu intrigant de l'article avec un style unique. Cliquez pour explorer
+                                davantage.
+                            </p>
+                            <a href="#" class="btn btn-primary"
+                                style="font-size: 0.9rem; padding: 10px 20px; border-radius: 5px;">En savoir plus</a>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -220,15 +254,15 @@
     <!-- JavaScript Libraries -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
-    <script src="../../../../assets/lib/easing/easing.min.js"></script>
-    <script src="../../../../assets/lib/waypoints/waypoints.min.js"></script>
-    <script src="../../../../assets/lib/owlcarousel/owl.carousel.min.js"></script>
-    <script src="../../../../assets/lib/tempusdominus/js/moment.min.js"></script>
-    <script src="../../../../assets/lib/tempusdominus/js/moment-timezone.min.js"></script>
-    <script src="../../../../assets/lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
+    <script src="../../assets/lib/easing/easing.min.js"></script>
+    <script src="../../assets/lib/waypoints/waypoints.min.js"></script>
+    <script src="../../assets/lib/owlcarousel/owl.carousel.min.js"></script>
+    <script src="../../assets/lib/tempusdominus/js/moment.min.js"></script>
+    <script src="../../assets/lib/tempusdominus/js/moment-timezone.min.js"></script>
+    <script src="../../assets/lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
 
     <!-- Template Javascript -->
-    <script src="../../../../assets/js/main.js"></script>
+    <script src="../../assets/js/main.js"></script>
 </body>
 
 </html>
