@@ -1,94 +1,56 @@
-CREATE DATABASE CarRentalPlatform;
-
-USE CarRentalPlatform;
-
-CREATE TABLE roles (
-    id_role INT PRIMARY KEY AUTO_INCREMENT,
-    role_name VARCHAR(255) NOT NULL,
-)
-
-CREATE TABLE utilisateurs (
-    id_utilisateur INT PRIMARY KEY AUTO_INCREMENT,
-    username VARCHAR(255),
-    email VARCHAR(255) UNIQUE,
-    password VARCHAR(255) NOT NULL,
-    role_id INT NOT NULL,
-    FOREIGN KEY (role_id) REFERENCES roles (id_role)
+CREATE Table themes(
+    id_theme INT PRIMARY KEY AUTO_INCREMENT,
+    theme_name VARCHAR(50),
 );
 
-CREATE TABLE categories{
-    id_category INT PRIMARY KEY AUTO_INCREMENT,
-    category_name VARCHAR(25)
-}
-
-CREATE TABLE vehicule (
-    id_vehivule INT AUTO_INCREMENT PRIMARY KEY,
-    modele VARCHAR(100),
-    marque VARCHAR(100) NOT NULL,
-    prixJournalier DECIMAL(10, 2) NOT NULL,
-    disponible BOOLEAN DEFAULT TRUE,
-    kilometrage INT NOT NULL,
-    transmission ENUM('Manuelle', 'Automatique') NOT NULL,
-    couleur VARCHAR(50) NOT NULL,
-    categorie_id INT NOT NULL,
-    FOREIGN KEY (categorie_id) REFERENCES categories(id_category)
+CREATE Table tags(
+    id_tag INT PRIMARY KEY AUTO_INCREMENT,
+    tag_name VARCHAR(50),
 );
 
-CREATE TABLE Avis (
-    id_avis INT AUTO_INCREMENT PRIMARY KEY,
-    client_id INT NOT NULL,
-    vehicule_id INT NOT NULL,
-    contenu TEXT NOT NULL,
-    note INT,
-    date DATE NOT NULL,
-    estSupprime BOOLEAN NOT NULL DEFAULT FALSE,
-    FOREIGN KEY (client_id) REFERENCES utilisateurs(id_utilisateur),
-    FOREIGN KEY (vehicule_id) REFERENCES vehicule(id_vehivule)
+CREATE Table article_body(
+    id_body INT PRIMARY KEY AUTO_INCREMENT,
+    subtitle_body VARCHAR(50),
+    content_body VARCHAR(50),
+    image_body VARCHAR(50),
+    video_body VARCHAR(50),
 );
 
-CREATE TABLE reservations (
-    id_reservation INT AUTO_INCREMENT PRIMARY KEY,
-    client_id INT NOT NULL,
-    vehicule_id INT NOT NULL,
-    dateDebut DATE NOT NULL,
-    dateFin DATE NOT NULL,
-    lieuPriseCharge VARCHAR(255) NOT NULL,
-    lieuRetour VARCHAR(255) NOT NULL,
-    statut ENUM('Confirmee', 'En attente', 'Annulee') NOT NULL DEFAULT 'En attente',
-    dateCreation TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (client_id) REFERENCES utilisateurs(id_utilisateur),
-    FOREIGN KEY (vehicule_id) REFERENCES vehicule(id_vehivule)
+CREATE Table articles(
+    id_article INT PRIMARY KEY AUTO_INCREMENT,
+    article_title VARCHAR(50),
+    active_article INT,
+    image_article VARCHAR(50),
+    video_article VARCHAR(50),
+    id_theme INT,
+    utilisateur_id INT,
+    artcile_body_id INT,
+    FOREIGN KEY (id_theme) REFERENCES themes(id_theme) ON DELETE CASCADE,
+    FOREIGN KEY (utilisateur_id) REFERENCES utilisateurs(id_utilisateur) ON DELETE CASCADE,
+    FOREIGN KEY (artcile_body_id) REFERENCES article_body(id_body) ON DELETE CASCADE
 );
 
+CREATE Table tag_article(
+    id_tag INT,
+    id_article INT,
+    PRIMARY KEY (id_tag, id_article),
+    FOREIGN KEY (id_tag) REFERENCES tags(id_tag) ON DELETE CASCADE,
+    FOREIGN KEY (id_article) REFERENCES articles(id_article) ON DELETE CASCADE,
+);
 
--- procedure stoked
+CREATE TABLE favorites(
+    id_fav INT PRIMARY KEY AUTO_INCREMENT,
+    id_utilisateur INT,
+    id_article INT,
+    FOREIGN KEY (id_utilisateur) REFERENCES utilisateurs(id_utilisateur) ON DELETE CASCADE,
+    FOREIGN KEY (id_article) REFERENCES articles(id_article) ON DELETE CASCADE,
+);
 
-DROP PROCEDURE IF EXISTS inserer_reservation;
-DELIMITER $$
-CREATE PROCEDURE inserer_reservation(
-    IN p_client_id INT,
-    IN p_vehicule_id INT,
-    IN p_dateDebut DATE,
-    IN p_dateFin DATE,
-    IN p_lieuPriseCharge VARCHAR(255),
-    IN p_lieuRetour VARCHAR(255),
-    IN statut VARCHAR(255)
-)
-BEGIN
-    INSERT INTO reservations (client_id, vehicule_id, dateDebut, dateFin, lieuPriseCharge, lieuRetour,statut)
-    VALUES (p_client_id, p_vehicule_id, p_dateDebut, p_dateFin, p_lieuPriseCharge, p_lieuRetour,statut);
-END $$
-
-DELIMITER ;
-
--- pour tester
-
-CALL inserer_reservation(2, 1, '2024-11-25', '2024-11-28', 'Gare de Lyon', 'Aéroport Charles de Gaulle','En attente');
-
-
--- view
-
-DROP VIEW IF EXISTS ListeVehicules;
-CREATE VIEW ListeVehicules AS
-SELECT * FROM vehicule v, avis a, categories c
-WHERE v.id_vehivule = a.vehicule_id  AND c.id_category = v.categorie_id;
+CREATE TABLE commentaires(
+    id_comment INT PRIMARY KEY AUTO_INCREMENT,
+    id_utilisateur INT,
+    id_article INT,
+    commentaire VARCHAR(50),
+    FOREIGN KEY (id_utilisateur) REFERENCES utilisateurs(id_utilisateur) ON DELETE CASCADE,
+    FOREIGN KEY (id_article) REFERENCES articles(id_article) ON DELETE CASCADE,
+);
