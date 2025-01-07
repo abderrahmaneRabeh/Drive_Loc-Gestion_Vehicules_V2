@@ -90,7 +90,7 @@ require_once '../../middleware/Check_user_connexion.php';
                                 Blog
                             </a>
                             <div class="dropdown-menu rounded-0 m-0">
-                                <a href="../List_Articles.php" class="dropdown-item ">
+                                <a href="./List_Articles.php" class="dropdown-item ">
                                     List Articles
                                 </a>
                                 <a href="./List_Themes.php" class="dropdown-item">List Thèmes</a>
