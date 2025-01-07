@@ -33,7 +33,7 @@ $listThemes = $theme->getThemes();
             <a href="../../index.php" class="btn"><i class="fas fa-home"></i> Home</a>
         </div>
         <h2 class="text-center mb-4">Ajouter un Article</h2>
-        <form action="" method="POST" enctype="multipart/form-data">
+        <form action="../../Controllers/AjouterArticle.php" method="POST" enctype="multipart/form-data">
             <!-- Article Title -->
             <div class="form-group">
                 <label for="article_title">Titre de l'Article</label>
@@ -41,14 +41,14 @@ $listThemes = $theme->getThemes();
                     placeholder="Entrez le titre de l'article" required>
             </div>
 
-            <!-- Active Article -->
+            <!-- Article Description -->
             <div class="form-group">
-                <label for="active_article">Activer l'Article</label>
-                <select class="form-control" id="active_article" name="active_article">
-                    <option value="1">Oui</option>
-                    <option value="0">Non</option>
-                </select>
+                <label for="article_description">Description de l'Article</label>
+                <textarea class="form-control" id="article_description" name="article_description"
+                    placeholder="Entrez la description de l'article" required
+                    style="height: 150px; border-radius: 8px; padding: 10px;"></textarea>
             </div>
+
 
             <!-- Image Article -->
             <div class="form-group">
