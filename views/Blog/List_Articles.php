@@ -1,6 +1,11 @@
 <?php
 session_start();
 require_once '../../middleware/Check_user_connexion.php';
+require_once '../../Models/Article.php';
+checkBlogPage();
+
+$article = new Article();
+$listArticles = $article->All_Articles();
 
 ?>
 
@@ -177,24 +182,27 @@ require_once '../../middleware/Check_user_connexion.php';
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-4 mb-4">
-                    <div class="card border-0"
-                        style="overflow: hidden; border-radius: 5px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
-                        <img class="card-img-top"
-                            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRbsmgmGx8fFFQgVthYZ_UN-F4d2KXmKjjZfA&s"
-                            alt="Image de l'article" style="height: 180px; object-fit: cover;">
-                        <div class="card-body" style="padding: 20px;">
-                            <h5 class="card-title text-dark" style="font-weight: 600; font-size: 1.2rem;">Titre
-                                captivant de l'article</h5>
-                            <p class="card-text text-secondary" style="font-size: 0.95rem; line-height: 1.5;">
-                                Découvrez un aperçu intrigant de l'article avec un style unique. Cliquez pour explorer
-                                davantage.
-                            </p>
-                            <a href="./ArticleDetails.php?article_id=1" class="btn btn-primary"
-                                style="font-size: 0.9rem; padding: 10px 20px; border-radius: 5px;">En savoir plus</a>
+
+                <?php foreach ($listArticles as $article): ?>
+                    <div class="col-md-4 mb-4">
+                        <div class="card border-0"
+                            style="overflow: hidden; border-radius: 5px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
+                            <img class="card-img-top" src="<?= $article['image_article']; ?>" alt="Image de l'article"
+                                style="height: 180px; object-fit: cover;">
+                            <div class="card-body" style="padding: 20px;">
+                                <h5 class="card-title text-dark" style="font-weight: 600; font-size: 1.2rem;">
+                                    <?= $article['article_title']; ?>
+                                </h5>
+                                <p class="card-text text-secondary" style="font-size: 0.95rem; line-height: 1.5;">
+                                    <?= substr($article['article_description'], 0, 50) . '...'; ?>
+                                </p>
+                                <a href="./ArticleDetails.php?article_id=<?= $article['id_article']; ?>"
+                                    class="btn btn-primary"
+                                    style="font-size: 0.9rem; padding: 10px 20px; border-radius: 5px;">En savoir plus</a>
+                            </div>
                         </div>
                     </div>
-                </div>
+                <?php endforeach; ?>
             </div>
         </div>
     </div>

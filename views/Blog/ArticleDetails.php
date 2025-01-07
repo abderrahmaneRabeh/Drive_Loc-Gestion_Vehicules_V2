@@ -201,7 +201,7 @@ if (isset($_GET['article_id'])) {
                     </div>
                     <div style="text-align: center; margin-top: 40px;">
                         <a href="#" class="btn btn-primary"
-                            style="font-size: 1.2rem; padding: 15px 35px; border-radius: 5px;">Retour à la liste des
+                            style="font-size: 1.2rem; padding: 5px 20px; border-radius: 5px;">Retour à la liste des
                             articles</a>
                     </div>
                 </div>
@@ -235,7 +235,7 @@ if (isset($_GET['article_id'])) {
                         <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
                     </div>
                     <button type="submit" class="btn btn-primary mt-3"
-                        style="font-size: 1.2rem; padding: 15px 35px; border-radius: 5px;">Envoyer</button>
+                        style="font-size: 1.2rem; padding: 5px 25px; border-radius: 5px;">Envoyer</button>
                 </div>
             </div>
         </div>
