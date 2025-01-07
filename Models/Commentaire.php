@@ -28,4 +28,22 @@ class Commentaire extends Database
         $commentaires = $query->fetchAll();
         return $commentaires;
     }
+
+    public function getALlCommentaires()
+    {
+        $query = $this->Conx_DataBase->prepare("SELECT * FROM commentaires");
+        $query->execute();
+        $commentaires = $query->fetchAll();
+        return $commentaires;
+    }
+
+    public function DeleteCommentaire($id)
+    {
+        $query = $this->Conx_DataBase->prepare("DELETE FROM commentaires WHERE id_comment = :id");
+        $query->bindParam(':id', $id);
+        $query->execute();
+        return $query->rowCount();
+    }
+
+
 }

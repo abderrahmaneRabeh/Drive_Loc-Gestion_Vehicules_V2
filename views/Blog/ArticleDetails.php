@@ -224,14 +224,14 @@ if (isset($_GET['article_id'])) {
                 </div>
             </form>
             <div class="row">
-                <div class="col-12 mt-5 mb-5">
+                <div class="col-12  mb-5">
                     <h4 class="text-dark" style="font-weight: 600; font-size: 2rem; margin-bottom: 20px;">Commentaires
                     </h4>
                     <?php foreach ($commentaires as $comment): ?>
                         <div class="media  shadow-sm p-3 bg-light rounded">
                             <div class="media-body">
                                 <h5 class="mt-0"><?= $comment['utilisateur_nom']; ?></h5>
-                                <p class=""><?= $comment['commentaire']; ?></p>
+                                <p><?= $comment['commentaire']; ?></p>
                             </div>
                         </div>
                         <hr>
