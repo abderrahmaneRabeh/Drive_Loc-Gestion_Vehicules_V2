@@ -17,4 +17,12 @@ class Theme extends Database
         $themes = $query->fetchAll();
         return $themes;
     }
+
+    public function get_Tags()
+    {
+        $query = $this->Conx_DataBase->prepare("SELECT * FROM tags");
+        $query->execute();
+        $tags = $query->fetchAll();
+        return $tags;
+    }
 }

@@ -1,62 +1,37 @@
+<?php
+session_start();
+require_once '../../middleware/Check_user_connexion.php';
+require_once '../../Models/Theme.php';
+AjouterFormCheck();
+
+$theme = new Theme();
+
+$listTags = $theme->get_Tags();
+$listThemes = $theme->getThemes();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ajouter Article</title>
-    <!-- Customized Bootstrap Stylesheet -->
-    <link href="../../assets/css/bootstrap.min.css" rel="stylesheet">
+    <title>DRIVE-LOC -- Ajouter Article</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="../../assets/css/ajouterVoiture.css">
 
-    <!-- Template Stylesheet -->
-    <link href="../../assets/css/style.css" rel="stylesheet">
-    <style>
-        body {
-            background-color: #f8f9fa;
-            font-family: 'Rubik', sans-serif;
-        }
-
-        .container {
-            max-width: 700px;
-            margin: 50px auto;
-            background: #fff;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-
-        .form-group label {
-            font-weight: 600;
-        }
-
-        .btn-primary {
-            background-color: #007bff;
-            border: none;
-            transition: background-color 0.3s ease;
-        }
-
-        .btn-primary:hover {
-            background-color: #0056b3;
-        }
-
-        .form-control {
-            border-radius: 8px;
-        }
-
-        .form-control-file {
-            padding: 10px;
-        }
-
-        .select2-container .select2-selection--multiple {
-            height: 40px;
-            padding: 5px 10px;
-            border-radius: 8px;
-        }
-    </style>
+    <link href="../../assets/img/vendor-7.png" rel="icon">
+    <link rel="stylesheet" href="../../assets/css/style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet">
 </head>
 
 <body>
     <div class="container">
+        <div class="top-buttons">
+            <a href="../../dashboard/admin/categories.php" class="btn"><i class="fas fa-tachometer-alt"></i>
+                Dashboard</a>
+            <a href="../../index.php" class="btn"><i class="fas fa-home"></i> Home</a>
+        </div>
         <h2 class="text-center mb-4">Ajouter un Article</h2>
         <form action="" method="POST" enctype="multipart/form-data">
             <!-- Article Title -->
@@ -66,10 +41,20 @@
                     placeholder="Entrez le titre de l'article" required>
             </div>
 
+            <!-- Active Article -->
+            <div class="form-group">
+                <label for="active_article">Activer l'Article</label>
+                <select class="form-control" id="active_article" name="active_article">
+                    <option value="1">Oui</option>
+                    <option value="0">Non</option>
+                </select>
+            </div>
+
             <!-- Image Article -->
             <div class="form-group">
                 <label for="image_article_url">Image de l'Article</label>
-                <input type="file" class="form-control-file" id="image_article_url" name="image_article_url">
+                <input type="url" class="form-control" id="image_article_url" name="image_article_url"
+                    placeholder="Entrez l'URL de l'image">
             </div>
 
             <!-- Video Article -->
@@ -83,10 +68,10 @@
             <div class="form-group">
                 <label for="theme">Thème</label>
                 <select class="form-control" id="theme" name="theme">
-                    <option value="1">Thème 1</option>
-                    <option value="2">Thème 2</option>
-                    <option value="3">Thème 3</option>
-                    <option value="4">Thème 4</option>
+                    <option value="" selected>Sélectionnez un thème</option>
+                    <?php foreach ($listThemes as $theme): ?>
+                        <option value="<?php echo $theme['id_theme']; ?>"><?php echo $theme['theme_name']; ?></option>
+                    <?php endforeach; ?>
                 </select>
             </div>
 
@@ -94,17 +79,30 @@
             <div class="form-group">
                 <label for="tags">Tags</label>
                 <select class="form-control" id="tags" name="tags[]" multiple>
-                    <option value="1">Tag 1</option>
-                    <option value="2">Tag 2</option>
-                    <option value="3">Tag 3</option>
-                    <option value="4">Tag 4</option>
+                    <?php foreach ($listTags as $tag): ?>
+                        <option value="<?php echo $tag['id_tag']; ?>">
+                            <?php echo $tag['tag_name']; ?>
+                        </option>
+                    <?php endforeach; ?>
                 </select>
             </div>
 
-            <button type="submit" class="btn btn-primary btn-block">Ajouter Article</button>
+            <button type="submit" class="form-btn">Ajouter Article</button>
         </form>
     </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            // Initialize Select2 on the Tags dropdown
+            $('#tags').select2({
+                placeholder: "Sélectionnez des tags",
+                allowClear: true,
+                width: '90%'
+            });
+        });
+    </script>
 </body>
 
 </html>
