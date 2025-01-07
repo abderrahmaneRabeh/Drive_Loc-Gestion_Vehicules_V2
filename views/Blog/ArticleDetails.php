@@ -2,19 +2,21 @@
 session_start();
 require_once '../../middleware/Check_user_connexion.php';
 require_once '../../Models/Article.php';
+require_once '../../Models/Commentaire.php';
 checkBlogPage();
 
 $articleObj = new Article();
-$article = null;
+$commentaireObj = new Commentaire();
 
 if (isset($_GET['article_id'])) {
     $id = $_GET['article_id'];
     $article = $articleObj->get_One_Article($id);
     $tags = $articleObj->get_Articles_tags($id);
+    $commentaires = $commentaireObj->getArticleCommentaires($id);
 
     // echo "<pre>";
-    // print_r($article);
-    // print_r();
+    // // print_r($article);
+    // print_r($commentaires);
     // echo "</pre>";
 }
 
@@ -206,36 +208,34 @@ if (isset($_GET['article_id'])) {
                     </div>
                 </div>
             </div>
+            <form action="../../Controllers/AjouterCommentaires.php" method="post">
+                <input type="hidden" name="article_id" value="<?= $article['id_article']; ?>">
+                <div class="row">
+                    <div class="col-12 mt-5 mb-5">
+                        <h4 class="text-dark" style="font-weight: 600; font-size: 2rem; margin-bottom: 20px;">Laisser
+                            un commentaire</h4>
+                        <div class="form-group">
+                            <label for="comment">Commentaire</label>
+                            <textarea class="form-control" id="comment" name="comment" rows="3"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary mt-3"
+                            style="font-size: 1.2rem; padding: 5px 25px; border-radius: 5px;">Envoyer</button>
+                    </div>
+                </div>
+            </form>
             <div class="row">
                 <div class="col-12 mt-5 mb-5">
                     <h4 class="text-dark" style="font-weight: 600; font-size: 2rem; margin-bottom: 20px;">Commentaires
                     </h4>
-                    <div class="media mt-4">
-                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS3Ql5JrQj6ZJ6G7l8Tb5sRn4fW7yDhQ&s"
-                            class="mr-3" alt="" style="width: 64px; height: 64px; border-radius: 50%;">
-                        <div class="media-body">
-                            <h5 class="mt-0">John Doe</h5>
-                            Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin.
-                            Cras purus odio, vestibulum in, pharetra in, porttitor at, nisl.
+                    <?php foreach ($commentaires as $comment): ?>
+                        <div class="media  shadow-sm p-3 bg-light rounded">
+                            <div class="media-body">
+                                <h5 class="mt-0"><?= $comment['utilisateur_nom']; ?></h5>
+                                <p class=""><?= $comment['commentaire']; ?></p>
+                            </div>
                         </div>
-                    </div>
-                    <hr>
-                    <div class="media mt-4">
-                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS3Ql5JrQj6ZJ6G7l8Tb5sRn4fW7yDhQ&s"
-                            class="mr-3" alt="" style="width: 64px; height: 64px; border-radius: 50%;">
-                        <div class="media-body">
-                            <h5 class="mt-0">Jane Doe</h5>
-                            Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin.
-                            Cras purus odio, vestibulum in, pharetra in, porttitor at, nisl.
-                        </div>
-                    </div>
-                    <hr>
-                    <div class="form-group mt-4">
-                        <label for="exampleFormControlTextarea1">Laisser un commentaire</label>
-                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
-                    </div>
-                    <button type="submit" class="btn btn-primary mt-3"
-                        style="font-size: 1.2rem; padding: 5px 25px; border-radius: 5px;">Envoyer</button>
+                        <hr>
+                    <?php endforeach; ?>
                 </div>
             </div>
         </div>
