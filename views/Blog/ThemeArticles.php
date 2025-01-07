@@ -16,7 +16,7 @@ if (isset($_GET['id_theme'])) {
 <head>
     <meta charset="utf-8">
     <title>DRIVE-LOC -- List Themes</title>
-    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport    ">
     <meta content="Free HTML Templates" name="description">
 
     <!-- Favicon -->

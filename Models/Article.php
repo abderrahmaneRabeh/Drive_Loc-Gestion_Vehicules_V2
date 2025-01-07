@@ -10,6 +10,32 @@ class Article extends Database
         $this->Conx_DataBase = $this->connect_Db();
     }
 
+    public function All_Articles()
+    {
+        $query = $this->Conx_DataBase->prepare("SELECT * FROM articles, themes, utilisateurs WHERE articles.id_theme = themes.id_theme AND articles.utilisateur_id = utilisateurs.id_utilisateur");
+        $query->execute();
+        $listArticles = $query->fetchAll();
+        return $listArticles;
+    }
+
+    public function get_One_Article($id)
+    {
+        $query = $this->Conx_DataBase->prepare("SELECT * FROM articles join themes on articles.id_theme = themes.id_theme join utilisateurs on articles.utilisateur_id = utilisateurs.id_utilisateur WHERE id_article = :id");
+        $query->bindParam(':id', $id);
+        $query->execute();
+        $article = $query->fetch();
+        return $article;
+    }
+
+    public function get_Articles_tags($id)
+    {
+        $query = $this->Conx_DataBase->prepare("SELECT * FROM tag_article join tags on tag_article.id_tag = tags.id_tag WHERE id_article = :id");
+        $query->bindParam(':id', $id);
+        $query->execute();
+        $tags = $query->fetchAll();
+        return $tags;
+    }
+
 
     public function Ajouter_Article($image_article, $title_article, $video_article, $theme_id, $utilisateur_id, $article_description)
     {

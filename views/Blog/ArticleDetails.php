@@ -1,6 +1,22 @@
 <?php
 session_start();
 require_once '../../middleware/Check_user_connexion.php';
+require_once '../../Models/Article.php';
+checkBlogPage();
+
+$articleObj = new Article();
+$article = null;
+
+if (isset($_GET['article_id'])) {
+    $id = $_GET['article_id'];
+    $article = $articleObj->get_One_Article($id);
+    $tags = $articleObj->get_Articles_tags($id);
+
+    // echo "<pre>";
+    // print_r($article);
+    // print_r();
+    // echo "</pre>";
+}
 
 ?>
 
@@ -148,42 +164,39 @@ require_once '../../middleware/Check_user_connexion.php';
             <div class="row">
                 <div class="col-12 mb-5">
                     <div style="text-align: center; margin-bottom: 30px;">
-                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRbsmgmGx8fFFQgVthYZ_UN-F4d2KXmKjjZfA&s"
-                            alt="Image de l'article" style="height: 250px; width: 50%; object-fit: cover;">
+                        <img src="<?= $article['image_article']; ?>" alt="Image de l'article"
+                            style="height: 250px; width: 50%; object-fit: cover;">
                     </div>
                     <h1 class="text-dark"
                         style="font-weight: 700; font-size: 2.5rem; text-align: center; margin-bottom: 20px;">
-                        Titre captivant de l'article
+                        <?= $article['article_title']; ?>
                     </h1>
-                    <h2 class="text-secondary"
-                        style="font-weight: 600; font-size: 1.8rem; text-align: center; margin-bottom: 20px;">
-                        Subtitle de l'article
-                    </h2>
                     <p class="text-secondary" style="font-size: 1.2rem; line-height: 1.8; margin-bottom: 30px;">
-                        Découvrez le contenu détaillé de cet article fascinant avec des informations et des perspectives
-                        uniques. Plongez dans l'exploration approfondie de ce sujet captivant. L'article couvre les
-                        différents aspects du sujet, allant de la théorie à la pratique. Vous trouverez des exemples
-                        concrets et des études de cas pour vous aider à mieux comprendre le sujet. N'hésitez pas à
-                        partager vos pensées et vos opinions sur le sujet dans les commentaires en bas de page.
+                        <?= $article['article_description']; ?>
                     </p>
                     <div style="margin-top: 30px;">
                         <h5 class="text-dark" style="font-weight: 600; margin-bottom: 15px;">Détails supplémentaires
                         </h5>
                         <ul style="list-style: none; padding-left: 0; font-size: 1.2rem;">
-                            <li><i class="fa fa-calendar text-primary mr-2"></i>Date de publication: 01/01/2023</li>
-                            <li><i class="fa fa-user text-primary mr-2"></i>Auteur: John Doe</li>
-                            <li><i class="fa fa-tags text-primary mr-2"></i>Catégorie: Technologie</li>
+                            <li><i class="fa fa-calendar text-primary mr-2"></i>Date de publication:
+                                <?= $article['article_created_at']; ?>
+                            </li>
+                            <li><i class="fa fa-user text-primary mr-2"></i>Auteur: <?= $article['username']; ?></li>
+                            <li><i class="fa fa-tags text-primary mr-2"></i>theme: <?= $article['theme_name']; ?></li>
                         </ul>
                     </div>
                     <div style="margin-top: 30px;">
                         <h5 class="text-dark" style="font-weight: 600; margin-bottom: 15px;">Tags</h5>
                         <div>
-                            <span class="badge badge-primary"
-                                style="font-size: 1rem; margin-right: 10px;">Technologie</span>
-                            <span class="badge badge-secondary"
-                                style="font-size: 1rem; margin-right: 10px;">Innovation</span>
-                            <span class="badge badge-success"
-                                style="font-size: 1rem; margin-right: 10px;">Science</span>
+
+                            <?php
+                            $colors = ['badge-primary', 'badge-secondary', 'badge-success', 'badge-danger', 'badge-warning', 'badge-info', 'badge-light', 'badge-dark'];
+                            foreach ($tags as $index => $tag):
+                                $color = $colors[$index % count($colors)];
+                                ?>
+                                <span class="badge <?= $color; ?>"
+                                    style="font-size: 1rem; margin-right: 10px;"><?= $tag['tag_name']; ?></span>
+                            <?php endforeach; ?>
                         </div>
                     </div>
                     <div style="text-align: center; margin-top: 40px;">
