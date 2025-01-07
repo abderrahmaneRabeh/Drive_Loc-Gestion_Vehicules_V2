@@ -18,9 +18,18 @@ class Article extends Database
         return $listArticles;
     }
 
+    public function get_user_articles($id)
+    {
+        $query = $this->Conx_DataBase->prepare("SELECT * FROM articles, themes, utilisateurs WHERE articles.id_theme = themes.id_theme AND articles.utilisateur_id = utilisateurs.id_utilisateur AND articles.utilisateur_id = :id");
+        $query->bindParam(':id', $id);
+        $query->execute();
+        $listArticles = $query->fetchAll();
+        return $listArticles;
+    }
+
     public function get_One_Article($id)
     {
-        $query = $this->Conx_DataBase->prepare("SELECT * FROM articles join themes on articles.id_theme = themes.id_theme join utilisateurs on articles.utilisateur_id = utilisateurs.id_utilisateur WHERE id_article = :id");
+        $query = $this->Conx_DataBase->prepare("SELECT * FROM articles join themes on articles.id_theme = themes.id_theme join utilisateurs on articles.utilisateur_id = utilisateurs.id_utilisateur join tag_article on articles.id_article = tag_article.id_article WHERE articles.id_article = :id");
         $query->bindParam(':id', $id);
         $query->execute();
         $article = $query->fetch();
@@ -75,5 +84,35 @@ class Article extends Database
         $query->bindParam(':active', $active);
         $query->execute();
         return $query->rowCount();
+    }
+
+    public function getThemes()
+    {
+        $query = $this->Conx_DataBase->prepare("SELECT * FROM themes");
+        $query->execute();
+        $themes = $query->fetchAll();
+        return $themes;
+    }
+
+    public function get_Tags($id_article)
+    {
+        $query = $this->Conx_DataBase->prepare("SELECT * FROM tag_article join tags on tag_article.id_tag = tags.id_tag where id_article = :id_article");
+        $query->bindParam(':id_article', $id_article);
+        $query->execute();
+        $tags = $query->fetchAll();
+        return $tags;
+    }
+
+    public function Modifier_Article($id, $image_article, $title_article, $video_article, $theme_id, $article_description)
+    {
+        $quey = $this->Conx_DataBase->prepare("UPDATE articles SET article_title = :article_title, image_article = :image_article, video_article = :video_article, id_theme = :theme_id, article_description = :article_description WHERE id_article = :id");
+        $quey->bindParam(':article_title', $title_article);
+        $quey->bindParam(':image_article', $image_article);
+        $quey->bindParam(':video_article', $video_article);
+        $quey->bindParam(':theme_id', $theme_id);
+        $quey->bindParam(':article_description', $article_description);
+        $quey->bindParam(':id', $id);
+        $quey->execute();
+        return $quey->rowCount();
     }
 }

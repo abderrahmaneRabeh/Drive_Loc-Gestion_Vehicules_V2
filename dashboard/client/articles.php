@@ -2,14 +2,13 @@
 session_start();
 require_once '../../middleware/Check_user_connexion.php';
 require_once '../../Models/Article.php';
-Dashboard_admin_check_roleConnect();
+Dashboard_client_check_roleConnect();
 
 $article = new Article();
-$listArticles = $article->All_Articles();
+$listArticles = $article->get_user_articles($_SESSION['user']['id_utilisateur']);
 
 
 ?>
-
 
 <!DOCTYPE html>
 <html lang="en" class="dark">
@@ -17,19 +16,18 @@ $listArticles = $article->All_Articles();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard - Articles</title>
+    <title>Dashboard - Avis</title>
 
     <link rel="stylesheet" href="../css/style.css">
     <script defer src="../js/main.js"></script>
     <link href="/assets/img/vendor-7.png" rel="icon">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.0/css/all.min.css" rel="stylesheet">
 
 
     <link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="../css/font-awesome.css">
     <link rel="icon" href="../../assets/images/logo.png" type="image/x-icon">
     <link rel="stylesheet" href="../css/Reservation.css">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.0/css/all.min.css" rel="stylesheet">
-
 
 </head>
 
@@ -58,31 +56,7 @@ $listArticles = $article->All_Articles();
                         <span>Acceuil</span>
                     </a>
                 </li>
-                <li class="sidebar-list-item">
-                    <a href="./voiture.php">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
-                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                            class="feather feather-car">
-                            <path d="M15 10l-3 3h8l-1.5 1.5L15 10z" />
-                            <path d="M10 8h4L10 2 6 8h4l-2 2z" />
-                        </svg>
-                        <span>Voiture</span>
-                    </a>
-                </li>
-                <li class="sidebar-list-item">
-                    <a href="./categories.php">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
-                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                            class="feather feather-grid">
-                            <rect x="3" y="3" width="7" height="7" />
-                            <rect x="14" y="3" width="7" height="7" />
-                            <rect x="14" y="14" width="7" height="7" />
-                            <rect x="3" y="14" width="7" height="7" />
-                        </svg>
-                        <span>Categories</span>
-                    </a>
-                </li>
-                <li class="sidebar-list-item">
+                <li class="sidebar-list-item ">
                     <a href="./reservation.php">
                         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
                             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
@@ -93,16 +67,6 @@ $listArticles = $article->All_Articles();
                             <line x1="3" y1="10" x2="21" y2="10" />
                         </svg>
                         <span>Reservations</span>
-                    </a>
-                </li>
-                <li class="sidebar-list-item">
-                    <a href="./statistique.php">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
-                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                            class="feather feather-activity">
-                            <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
-                        </svg>
-                        <span>Statistiques</span>
                     </a>
                 </li>
                 <li class="sidebar-list-item">
@@ -154,7 +118,7 @@ $listArticles = $article->All_Articles();
         </div>
         <div class="app-content">
             <div class="app-content-header">
-                <h1 class="app-content-headerText">Voitures</h1>
+                <h1 class="app-content-headerText">Reservation</h1>
                 <button class="mode-switch" title="Switch Theme">
                     <svg class="moon" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
                         stroke-width="2" width="24" height="24" viewBox="0 0 24 24">
@@ -187,6 +151,7 @@ $listArticles = $article->All_Articles();
                 ?>
             </div>
             <div class="products-area-wrapper tableView">
+
                 <!-- Add New Voiture Button -->
                 <div class="d-flex justify-content-between align-items-center mb-3">
                     <h2 style="color: white;">Liste des Articles</h2>
@@ -203,7 +168,6 @@ $listArticles = $article->All_Articles();
                             <th>Titre de l'article</th>
                             <th>Actif</th>
                             <th>Thème</th>
-                            <th>Auteur</th>
                             <th>Description</th>
                             <th>Date de publication</th>
                             <th class="text-center">Actions</th>
@@ -217,25 +181,17 @@ $listArticles = $article->All_Articles();
                                 <td>
                                     <?php if ($article['active_article'] == 1): ?>
                                         <span class="badge badge-success">Oui</span>
-                                    <?php elseif ($article['active_article'] == 2): ?>
-                                        <span class="badge badge-danger">Non</span>
                                     <?php else: ?>
-                                        <form action="../../Controllers/ApproveArticle.php" method="POST">
-                                            <select name="active_article" onchange="this.form.submit()">
-                                                <option value="">Approver</option>
-                                                <option value="1">Accepter</option>
-                                                <option value="2">Refuser</option>
-                                            </select>
-                                            <input type="hidden" name="id_article" value="<?= $article['id_article']; ?>">
-                                        </form>
+                                        <span class="badge badge-danger">Non</span>
                                     <?php endif; ?>
 
                                 </td>
                                 <td><?= $article['theme_name']; ?></td>
-                                <td><?= $article['username']; ?></td>
                                 <td><?= substr($article['article_description'], 0, 30) . '...'; ?></td>
                                 <td><?= $article['article_created_at']; ?></td>
                                 <td class="text-center">
+                                    <a href="../../views/Blog/ModifierArticle__form.php?id=<?= $article['id_article']; ?>"
+                                        class="btn btn-warning btn-sm">Modifier</a>
                                     <a href="../../Controllers/Delete_article.php?id=<?= $article['id_article']; ?>"
                                         class="btn btn-danger btn-sm"
                                         onclick="return confirm('Voulez-vous supprimer cet article ?')">Supprimer</a>
@@ -245,49 +201,8 @@ $listArticles = $article->All_Articles();
                     </tbody>
                 </table>
                 <!-- end Table -->
-
-                <!-- Pagination -->
-                <!-- <div class="container-fluid pt-4 pb-3">
-                    <div class="d-flex justify-content-center">
-                        <nav>
-                            <ul class="pagination justify-content-center mb-0">
-                                <li class="page-item">
-                                    <?php
-                                    if ($page > 1) {
-                                        $previous = $page - 1;
-                                        echo "<a class='page-link' href='?page=$previous' style='background-color: #ffc107; color: #000;'><i class='fa fa-angle-double-left'></i></a>";
-                                    } else {
-                                        echo "<a class='page-link' href='?page=1' style='background-color: #6c757d; color: #fff; cursor: not-allowed;'><i class='fa fa-angle-double-left'></i></a>";
-                                    }
-                                    ?>
-                                </li>
-                                <?php
-                                for ($i = 1; $i <= $LignesSelectioner; $i++) {
-                                    if ($page == $i) {
-                                        echo "<li class='page-item active'><a class='page-link' href='#' style='background-color: #28a745; border-color: #28a745;'>$i<span class='sr-only'></span></a></li>";
-                                    } else {
-                                        echo "<li class='page-item'><a class='page-link' href='?page=$i' style='background-color: #1a1a2e; color: #fff; border-color: #444;'>$i</a></li>";
-                                    }
-                                }
-                                ?>
-                                <li class="page-item">
-                                    <?php
-                                    if ($page < $LignesSelectioner) {
-                                        $suivant = $page + 1;
-                                        echo "<a class='page-link' href='?page=$suivant' style='background-color: #ffc107; color: #000;'><i class='fa fa-angle-double-right'></i></a>";
-                                    } else {
-                                        echo "<a class='page-link' href='?page=$LignesSelectioner' style='background-color: #6c757d; color: #fff; cursor: not-allowed;'><i class='fa fa-angle-double-right'></i></a>";
-                                    }
-                                    ?>
-                                </li>
-                            </ul>
-                        </nav>
-                    </div>
-                </div> -->
-
             </div>
         </div>
-    </div>
 
 </body>
 
