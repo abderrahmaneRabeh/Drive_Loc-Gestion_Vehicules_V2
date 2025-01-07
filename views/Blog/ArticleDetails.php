@@ -9,7 +9,7 @@ require_once '../../middleware/Check_user_connexion.php';
 
 <head>
     <meta charset="utf-8">
-    <title>DRIVE-LOC -- List articles</title>
+    <title>DRIVE-LOC -- articles Details</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="Free HTML Templates" name="keywords">
     <meta content="Free HTML Templates" name="description">
@@ -34,18 +34,6 @@ require_once '../../middleware/Check_user_connexion.php';
 
     <!-- Template Stylesheet -->
     <link href="../../assets/css/style.css" rel="stylesheet">
-
-    <style>
-        .card:hover {
-            transform: translateY(-5px);
-            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
-            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
-        }
-
-        .card-title {
-            margin-bottom: 10px;
-        }
-    </style>
 </head>
 
 <body>
@@ -98,11 +86,11 @@ require_once '../../middleware/Check_user_connexion.php';
                         <a href="../../index.php" class="nav-item nav-link">Accueil</a>
                         <a href="../List_Voitures.php" class="nav-item nav-link">List Voitures</a>
                         <div class="nav-item dropdown">
-                            <a href="#" class="nav-link active dropdown-toggle" data-toggle="dropdown">
+                            <a href="#" class="nav-link  dropdown-toggle" data-toggle="dropdown">
                                 Blog
                             </a>
                             <div class="dropdown-menu rounded-0 m-0">
-                                <a href="../List_Articles.php" class="dropdown-item active">
+                                <a href="../List_Articles.php" class="dropdown-item ">
                                     List Articles
                                 </a>
                                 <a href="./List_Themes.php" class="dropdown-item">List Thèmes</a>
@@ -153,144 +141,94 @@ require_once '../../middleware/Check_user_connexion.php';
     <!-- Navbar End -->
 
 
-    <!-- Page Header Start -->
-    <div class="container-fluid page-header mt-5">
-        <h1 class="display-3 text-uppercase text-white mb-3">List Articles</h1>
-        <div class="d-inline-flex text-white">
-            <h6 class="text-uppercase m-0"><a class="text-white" href="">Home</a></h6>
-            <h6 class="text-body m-0 px-3">/</h6>
-            <h6 class="text-uppercase text-body m-0">List Articles</h6>
-        </div>
-    </div>
-    <!-- Page Header Start -->
-
-
     <!-- Rent A Car Start -->
-    <div class="container-fluid">
-        <div class="container ">
-            <h1 class="display-4 text-uppercase text-center mb-5">Explorer les differents articles</h1>
-            <div class="row mb-4">
-                <div class="col-md-12 text-right">
-                    <a href="AjouterArticle__form.php" class="btn btn-primary">
-                        <i class="fas fa-plus-circle"></i> Ajouter un article
-                    </a>
+    <div class="container-fluid mt-5">
+        <div class="container">
+            <h3 class="display-5 text-uppercase text-center mb-5">Captivant de l'article</h3>
+            <div class="row">
+                <div class="col-12 mb-5">
+                    <div style="text-align: center; margin-bottom: 30px;">
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRbsmgmGx8fFFQgVthYZ_UN-F4d2KXmKjjZfA&s"
+                            alt="Image de l'article" style="height: 250px; width: 50%; object-fit: cover;">
+                    </div>
+                    <h1 class="text-dark"
+                        style="font-weight: 700; font-size: 2.5rem; text-align: center; margin-bottom: 20px;">
+                        Titre captivant de l'article
+                    </h1>
+                    <h2 class="text-secondary"
+                        style="font-weight: 600; font-size: 1.8rem; text-align: center; margin-bottom: 20px;">
+                        Subtitle de l'article
+                    </h2>
+                    <p class="text-secondary" style="font-size: 1.2rem; line-height: 1.8; margin-bottom: 30px;">
+                        Découvrez le contenu détaillé de cet article fascinant avec des informations et des perspectives
+                        uniques. Plongez dans l'exploration approfondie de ce sujet captivant. L'article couvre les
+                        différents aspects du sujet, allant de la théorie à la pratique. Vous trouverez des exemples
+                        concrets et des études de cas pour vous aider à mieux comprendre le sujet. N'hésitez pas à
+                        partager vos pensées et vos opinions sur le sujet dans les commentaires en bas de page.
+                    </p>
+                    <div style="margin-top: 30px;">
+                        <h5 class="text-dark" style="font-weight: 600; margin-bottom: 15px;">Détails supplémentaires
+                        </h5>
+                        <ul style="list-style: none; padding-left: 0; font-size: 1.2rem;">
+                            <li><i class="fa fa-calendar text-primary mr-2"></i>Date de publication: 01/01/2023</li>
+                            <li><i class="fa fa-user text-primary mr-2"></i>Auteur: John Doe</li>
+                            <li><i class="fa fa-tags text-primary mr-2"></i>Catégorie: Technologie</li>
+                        </ul>
+                    </div>
+                    <div style="margin-top: 30px;">
+                        <h5 class="text-dark" style="font-weight: 600; margin-bottom: 15px;">Tags</h5>
+                        <div>
+                            <span class="badge badge-primary"
+                                style="font-size: 1rem; margin-right: 10px;">Technologie</span>
+                            <span class="badge badge-secondary"
+                                style="font-size: 1rem; margin-right: 10px;">Innovation</span>
+                            <span class="badge badge-success"
+                                style="font-size: 1rem; margin-right: 10px;">Science</span>
+                        </div>
+                    </div>
+                    <div style="text-align: center; margin-top: 40px;">
+                        <a href="#" class="btn btn-primary"
+                            style="font-size: 1.2rem; padding: 15px 35px; border-radius: 5px;">Retour à la liste des
+                            articles</a>
+                    </div>
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-4 mb-4">
-                    <div class="card border-0"
-                        style="overflow: hidden; border-radius: 5px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
-                        <img class="card-img-top"
-                            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRbsmgmGx8fFFQgVthYZ_UN-F4d2KXmKjjZfA&s"
-                            alt="Image de l'article" style="height: 180px; object-fit: cover;">
-                        <div class="card-body" style="padding: 20px;">
-                            <h5 class="card-title text-dark" style="font-weight: 600; font-size: 1.2rem;">Titre
-                                captivant de l'article</h5>
-                            <p class="card-text text-secondary" style="font-size: 0.95rem; line-height: 1.5;">
-                                Découvrez un aperçu intrigant de l'article avec un style unique. Cliquez pour explorer
-                                davantage.
-                            </p>
-                            <a href="./ArticleDetails.php?id_theme=1" class="btn btn-primary"
-                                style="font-size: 0.9rem; padding: 10px 20px; border-radius: 5px;">En savoir plus</a>
+                <div class="col-12 mt-5 mb-5">
+                    <h4 class="text-dark" style="font-weight: 600; font-size: 2rem; margin-bottom: 20px;">Commentaires
+                    </h4>
+                    <div class="media mt-4">
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS3Ql5JrQj6ZJ6G7l8Tb5sRn4fW7yDhQ&s"
+                            class="mr-3" alt="" style="width: 64px; height: 64px; border-radius: 50%;">
+                        <div class="media-body">
+                            <h5 class="mt-0">John Doe</h5>
+                            Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin.
+                            Cras purus odio, vestibulum in, pharetra in, porttitor at, nisl.
                         </div>
                     </div>
-                </div>
-                <div class="col-md-4 mb-4">
-                    <div class="card border-0"
-                        style="overflow: hidden; border-radius: 5px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
-                        <img class="card-img-top"
-                            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRbsmgmGx8fFFQgVthYZ_UN-F4d2KXmKjjZfA&s"
-                            alt="Image de l'article" style="height: 180px; object-fit: cover;">
-                        <div class="card-body" style="padding: 20px;">
-                            <h5 class="card-title text-dark" style="font-weight: 600; font-size: 1.2rem;">Titre
-                                captivant de l'article</h5>
-                            <p class="card-text text-secondary" style="font-size: 0.95rem; line-height: 1.5;">
-                                Découvrez un aperçu intrigant de l'article avec un style unique. Cliquez pour explorer
-                                davantage.
-                            </p>
-                            <a href="./ArticleDetails.php?id_theme=1" class="btn btn-primary"
-                                style="font-size: 0.9rem; padding: 10px 20px; border-radius: 5px;">En savoir plus</a>
+                    <hr>
+                    <div class="media mt-4">
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS3Ql5JrQj6ZJ6G7l8Tb5sRn4fW7yDhQ&s"
+                            class="mr-3" alt="" style="width: 64px; height: 64px; border-radius: 50%;">
+                        <div class="media-body">
+                            <h5 class="mt-0">Jane Doe</h5>
+                            Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin.
+                            Cras purus odio, vestibulum in, pharetra in, porttitor at, nisl.
                         </div>
                     </div>
-                </div>
-                <div class="col-md-4 mb-4">
-                    <div class="card border-0"
-                        style="overflow: hidden; border-radius: 5px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
-                        <img class="card-img-top"
-                            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRbsmgmGx8fFFQgVthYZ_UN-F4d2KXmKjjZfA&s"
-                            alt="Image de l'article" style="height: 180px; object-fit: cover;">
-                        <div class="card-body" style="padding: 20px;">
-                            <h5 class="card-title text-dark" style="font-weight: 600; font-size: 1.2rem;">Titre
-                                captivant de l'article</h5>
-                            <p class="card-text text-secondary" style="font-size: 0.95rem; line-height: 1.5;">
-                                Découvrez un aperçu intrigant de l'article avec un style unique. Cliquez pour explorer
-                                davantage.
-                            </p>
-                            <a href="./ArticleDetails.php?id_theme=1" class="btn btn-primary"
-                                style="font-size: 0.9rem; padding: 10px 20px; border-radius: 5px;">En savoir plus</a>
-                        </div>
+                    <hr>
+                    <div class="form-group mt-4">
+                        <label for="exampleFormControlTextarea1">Laisser un commentaire</label>
+                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
                     </div>
-                </div>
-                <div class="col-md-4 mb-4">
-                    <div class="card border-0"
-                        style="overflow: hidden; border-radius: 5px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
-                        <img class="card-img-top"
-                            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRbsmgmGx8fFFQgVthYZ_UN-F4d2KXmKjjZfA&s"
-                            alt="Image de l'article" style="height: 180px; object-fit: cover;">
-                        <div class="card-body" style="padding: 20px;">
-                            <h5 class="card-title text-dark" style="font-weight: 600; font-size: 1.2rem;">Titre
-                                captivant de l'article</h5>
-                            <p class="card-text text-secondary" style="font-size: 0.95rem; line-height: 1.5;">
-                                Découvrez un aperçu intrigant de l'article avec un style unique. Cliquez pour explorer
-                                davantage.
-                            </p>
-                            <a href="./ArticleDetails.php?id_theme=1" class="btn btn-primary"
-                                style="font-size: 0.9rem; padding: 10px 20px; border-radius: 5px;">En savoir plus</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4 mb-4">
-                    <div class="card border-0"
-                        style="overflow: hidden; border-radius: 5px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
-                        <img class="card-img-top"
-                            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRbsmgmGx8fFFQgVthYZ_UN-F4d2KXmKjjZfA&s"
-                            alt="Image de l'article" style="height: 180px; object-fit: cover;">
-                        <div class="card-body" style="padding: 20px;">
-                            <h5 class="card-title text-dark" style="font-weight: 600; font-size: 1.2rem;">Titre
-                                captivant de l'article</h5>
-                            <p class="card-text text-secondary" style="font-size: 0.95rem; line-height: 1.5;">
-                                Découvrez un aperçu intrigant de l'article avec un style unique. Cliquez pour explorer
-                                davantage.
-                            </p>
-                            <a href="./ArticleDetails.php?id_theme=1" class="btn btn-primary"
-                                style="font-size: 0.9rem; padding: 10px 20px; border-radius: 5px;">En savoir plus</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4 mb-4">
-                    <div class="card border-0"
-                        style="overflow: hidden; border-radius: 5px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
-                        <img class="card-img-top"
-                            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRbsmgmGx8fFFQgVthYZ_UN-F4d2KXmKjjZfA&s"
-                            alt="Image de l'article" style="height: 180px; object-fit: cover;">
-                        <div class="card-body" style="padding: 20px;">
-                            <h5 class="card-title text-dark" style="font-weight: 600; font-size: 1.2rem;">Titre
-                                captivant de l'article</h5>
-                            <p class="card-text text-secondary" style="font-size: 0.95rem; line-height: 1.5;">
-                                Découvrez un aperçu intrigant de l'article avec un style unique. Cliquez pour explorer
-                                davantage.
-                            </p>
-                            <a href="./ArticleDetails.php?id_theme=1" class="btn btn-primary"
-                                style="font-size: 0.9rem; padding: 10px 20px; border-radius: 5px;">En savoir plus</a>
-                        </div>
-                    </div>
+                    <button type="submit" class="btn btn-primary mt-3"
+                        style="font-size: 1.2rem; padding: 15px 35px; border-radius: 5px;">Envoyer</button>
                 </div>
             </div>
         </div>
     </div>
-
-
     <!-- Rent A Car End -->
+
 
     <!-- Footer Start -->
     <div class="container-fluid bg-secondary py-5 px-sm-3 px-md-5" style="margin-top: 90px;">
