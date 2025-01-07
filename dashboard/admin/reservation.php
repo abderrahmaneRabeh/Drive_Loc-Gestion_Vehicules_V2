@@ -131,6 +131,17 @@ $listVoiture = $reservation->getAllReservations();
                         <span>Avis</span>
                     </a>
                 </li>
+                <li class="sidebar-list-item">
+                    <a href="./articles.php">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                            class="feather feather-file-text">
+                            <path
+                                d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2zM14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h10z" />
+                        </svg>
+                        <span>Articles</span>
+                    </a>
+                </li>
             </ul>
             <div class="account-info">
                 <?php

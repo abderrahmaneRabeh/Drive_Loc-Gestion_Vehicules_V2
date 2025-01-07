@@ -32,10 +32,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 }
 
 if ($tout_est_effectuer) {
-    $_SESSION["success"] = "Article ajouter avec success";
+    $_SESSION["success_article"] = "Article ajouter avec success";
     header("Location: ../views/Blog/ArticleDetails.php?article_id=" . $current_Article_id);
     exit;
 } else {
-    $_SESSION["error"] = "Article non ajouter";
+    $_SESSION["error_article"] = "Article non ajouter";
     exit;
 }

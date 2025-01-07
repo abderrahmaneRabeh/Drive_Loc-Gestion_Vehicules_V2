@@ -200,7 +200,7 @@ if (isset($_GET['article_id'])) {
                         </div>
                     </div>
                     <div style="text-align: center; margin-top: 40px;">
-                        <a href="#" class="btn btn-primary"
+                        <a href="./List_Articles.php" class="btn btn-primary"
                             style="font-size: 1.2rem; padding: 5px 20px; border-radius: 5px;">Retour à la liste des
                             articles</a>
                     </div>

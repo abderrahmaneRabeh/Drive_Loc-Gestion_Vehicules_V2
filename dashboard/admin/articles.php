@@ -1,23 +1,12 @@
 <?php
 session_start();
 require_once '../../middleware/Check_user_connexion.php';
-require_once '../../Models/Voiture.php';
-
+require_once '../../Models/Article.php';
 Dashboard_admin_check_roleConnect();
 
-if (isset($_GET['page'])) {
-    $page = $_GET['page'];
-} else {
-    $page = 1;
-}
+$article = new Article();
+$listArticles = $article->All_Articles();
 
-$ListVoitureController = new Voiture();
-$listVoiture = $ListVoitureController->getVoitures($page);
-
-$totalLignes = $ListVoitureController->Nbr_Voiture();
-$LigneParPage = $ListVoitureController->getLinesParPage();
-
-$LignesSelectioner = ceil($totalLignes / $LigneParPage);
 
 ?>
 
@@ -28,7 +17,7 @@ $LignesSelectioner = ceil($totalLignes / $LigneParPage);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard - Voiture</title>
+    <title>Dashboard - Articles</title>
 
     <link rel="stylesheet" href="../css/style.css">
     <script defer src="../js/main.js"></script>
@@ -69,7 +58,7 @@ $LignesSelectioner = ceil($totalLignes / $LigneParPage);
                         <span>Acceuil</span>
                     </a>
                 </li>
-                <li class="sidebar-list-item active">
+                <li class="sidebar-list-item">
                     <a href="./voiture.php">
                         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
                             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
@@ -127,7 +116,7 @@ $LignesSelectioner = ceil($totalLignes / $LigneParPage);
                         <span>Avis</span>
                     </a>
                 </li>
-                <li class="sidebar-list-item">
+                <li class="sidebar-list-item active">
                     <a href="./articles.php">
                         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
                             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
@@ -187,63 +176,69 @@ $LignesSelectioner = ceil($totalLignes / $LigneParPage);
             </div>
             <div class="alert-wrapper">
                 <?php
-                if (isset($_SESSION["success"])) {
-                    echo "<div class=\"alert alert-success\">" . $_SESSION["success"] . "</div>";
-                    unset($_SESSION["success"]);
+                if (isset($_SESSION["success_article"])) {
+                    echo "<div class=\"alert alert-success\">" . $_SESSION["success_article"] . "</div>";
+                    unset($_SESSION["success_article"]);
                 }
-                if (isset($_SESSION["error"])) {
-                    echo "<div class=\"alert alert-danger\">" . $_SESSION["error"] . "</div>";
-                    unset($_SESSION["error"]);
+                if (isset($_SESSION["error_article"])) {
+                    echo "<div class=\"alert alert-danger\">" . $_SESSION["error_article"] . "</div>";
+                    unset($_SESSION["error_article"]);
                 }
                 ?>
             </div>
             <div class="products-area-wrapper tableView">
                 <!-- Add New Voiture Button -->
                 <div class="d-flex justify-content-between align-items-center mb-3">
-                    <h2 style="color: white;">Liste des Voitures</h2>
-                    <a href="../../views/Ajouter_voiture__form.php" class="btn"
+                    <h2 style="color: white;">Liste des Articles</h2>
+                    <a href="../../views/Blog/AjouterArticle__form.php" class="btn"
                         style="background-color: #fff; color: #000;">Ajouter une Nouvelle
-                        Voiture</a>
+                        Article</a>
                 </div>
 
                 <!-- start Table -->
                 <table class="table table-dark table-bordered table-hover">
                     <thead class="thead-light">
                         <tr>
-                            <th>#</th>
-                            <th>Modèle</th>
-                            <th>Marque</th>
-                            <th>Prix Journalier</th>
-                            <th>Transmission</th>
-                            <th>Couleur</th>
-                            <th>Kilométrage</th>
-                            <th>Disponible</th>
+                            <th>ID Article</th>
+                            <th>Titre de l'article</th>
+                            <th>Actif</th>
+                            <th>Thème</th>
+                            <th>Auteur</th>
+                            <th>Description</th>
+                            <th>Date de publication</th>
                             <th class="text-center">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <?php foreach ($listVoiture as $voiture) { ?>
+                        <?php foreach ($listArticles as $article) { ?>
                             <tr>
-                                <td><?= $voiture['id_vehivule'] ?></td>
-                                <td><?= $voiture['modele']; ?></td>
-                                <td><?= $voiture['marque']; ?></td>
-                                <td>$<?= $voiture['prixJournalier']; ?></td>
-                                <td><?= $voiture['transmission']; ?></td>
-                                <td><?= $voiture['couleur']; ?></td>
-                                <td><?= $voiture['kilometrage']; ?>Km</td>
-                                <td class="text-center">
-                                    <?php if ($voiture['disponible']) { ?>
+                                <td><?= $article['id_article'] ?></td>
+                                <td><?= $article['article_title']; ?></td>
+                                <td>
+                                    <?php if ($article['active_article'] == 1): ?>
                                         <span class="badge badge-success">Oui</span>
-                                    <?php } else { ?>
+                                    <?php elseif ($article['active_article'] == 2): ?>
                                         <span class="badge badge-danger">Non</span>
-                                    <?php } ?>
+                                    <?php else: ?>
+                                        <form action="../../Controllers/ApproveArticle.php" method="POST">
+                                            <select name="active_article" onchange="this.form.submit()">
+                                                <option value="">Approver</option>
+                                                <option value="1">Accepter</option>
+                                                <option value="2">Refuser</option>
+                                            </select>
+                                            <input type="hidden" name="id_article" value="<?= $article['id_article']; ?>">
+                                        </form>
+                                    <?php endif; ?>
+
                                 </td>
+                                <td><?= $article['theme_name']; ?></td>
+                                <td><?= $article['username']; ?></td>
+                                <td><?= substr($article['article_description'], 0, 30) . '...'; ?></td>
+                                <td><?= $article['article_created_at']; ?></td>
                                 <td class="text-center">
-                                    <a href="../../views/Modifier_voiture__form.php?id=<?= $voiture['id_vehivule']; ?>"
-                                        class="btn btn-warning btn-sm">Modifier</a>
-                                    <a href="../../Controllers/Delete_Voiture.php?id=<?= $voiture['id_vehivule']; ?>"
+                                    <a href="../../Controllers/Delete_article.php?id=<?= $article['id_article']; ?>"
                                         class="btn btn-danger btn-sm"
-                                        onclick="return confirm('Voulez-vous supprimer ce véhicule ?')">Supprimer</a>
+                                        onclick="return confirm('Voulez-vous supprimer cet article ?')">Supprimer</a>
                                 </td>
                             </tr>
                         <?php } ?>
@@ -251,7 +246,7 @@ $LignesSelectioner = ceil($totalLignes / $LigneParPage);
                 </table>
                 <!-- end Table -->
                 <!-- Pagination -->
-                <div class="container-fluid pt-4 pb-3">
+                <!-- <div class="container-fluid pt-4 pb-3">
                     <div class="d-flex justify-content-center">
                         <nav>
                             <ul class="pagination justify-content-center mb-0">
@@ -287,7 +282,7 @@ $LignesSelectioner = ceil($totalLignes / $LigneParPage);
                             </ul>
                         </nav>
                     </div>
-                </div>
+                </div> -->
 
             </div>
         </div>

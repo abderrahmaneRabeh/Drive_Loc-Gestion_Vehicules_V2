@@ -59,4 +59,21 @@ class Article extends Database
         $query->execute();
         return $query->rowCount();
     }
+
+    public function Delete_Article($id)
+    {
+        $query = $this->Conx_DataBase->prepare("DELETE FROM articles WHERE id_article = :id");
+        $query->bindParam(':id', $id);
+        $query->execute();
+        return $query->rowCount();
+    }
+
+    public function UpdateActive_article($id, $active)
+    {
+        $query = $this->Conx_DataBase->prepare("UPDATE articles SET active_article = :active WHERE id_article = :id");
+        $query->bindParam(':id', $id);
+        $query->bindParam(':active', $active);
+        $query->execute();
+        return $query->rowCount();
+    }
 }
