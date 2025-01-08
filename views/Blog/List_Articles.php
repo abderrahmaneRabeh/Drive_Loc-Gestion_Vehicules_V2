@@ -2,13 +2,40 @@
 session_start();
 require_once '../../middleware/Check_user_connexion.php';
 require_once '../../Models/Article.php';
+require_once '../../Models/Theme.php';
 require_once '../../Models/Database.php';
 checkBlogPage();
 
 
+if (isset($_GET['page'])) {
+    $page = $_GET['page'];
+} else {
+    $page = 1;
+}
+
+
+
 $db = new Database();
 $article = new Article($db->connect_Db());
-$listArticles = $article->All_Articles();
+$theme = new Theme($db->connect_Db());
+
+if (isset($_GET['nbr_article'])) {
+    $nbr_article = $_GET['nbr_article'];
+} else {
+    $nbr_article = 6;
+}
+$article->setLinesParPage(lignes_par_page: $nbr_article);
+
+$listThemes = $theme->getThemes();
+$listArticles = $article->All_Articles($page);
+
+
+// pagination
+$nbrArticles = $article->Nbr_Articles();
+$lignesParPage = $article->getLinesParPage();
+$nbrePages = ceil($nbrArticles / $lignesParPage);
+
+
 
 ?>
 
@@ -161,31 +188,39 @@ $listArticles = $article->All_Articles();
     <!-- Navbar End -->
 
 
-    <!-- Page Header Start -->
-    <div class="container-fluid page-header mt-5">
-        <h1 class="display-3 text-uppercase text-white mb-3">List Articles</h1>
-        <div class="d-inline-flex text-white">
-            <h6 class="text-uppercase m-0"><a class="text-white" href="">Home</a></h6>
-            <h6 class="text-body m-0 px-3">/</h6>
-            <h6 class="text-uppercase text-body m-0">List Articles</h6>
-        </div>
-    </div>
-    <!-- Page Header Start -->
-
-
     <!-- Rent A Car Start -->
-    <div class="container-fluid">
-        <div class="container ">
-            <h1 class="display-4 text-uppercase text-center mb-5">Explorer les differents articles</h1>
-            <div class="row mb-4">
-                <div class="col-md-12 text-right">
+    <div class="container-fluid mt-5">
+        <div class="container">
+            <!-- <h1 class="display-5 text-uppercase text-center mb-5">Explorer les differents articles</h1> -->
+            <div class="row mb-5">
+                <div class="col-md-6 text-left">
+                    <form action="./List_Articles.php" method="GET">
+                        <div class="input-group">
+                            <input type="text" name="search" class="form-control" placeholder="Rechercher un article">
+                            <div class="input-group-append">
+                                <button class="btn btn-primary" type="submit">
+                                    <i class="fas fa-search"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="col-md-6 text-right">
+                    <div class="d-inline-block mr-3">
+                        <select class="form-control" name="theme_filter" id="theme_filter">
+                            <option value="">Filtrer par thème</option>
+                            <?php foreach ($listThemes as $theme): ?>
+                                <option value="<?php echo $theme['id_theme']; ?>"><?php echo $theme['theme_name']; ?>
+                                </option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
                     <a href="AjouterArticle__form.php" class="btn btn-primary">
                         <i class="fas fa-plus-circle"></i> Ajouter un article
                     </a>
                 </div>
             </div>
             <div class="row">
-
                 <?php foreach ($listArticles as $article): ?>
                     <div class="col-md-4 mb-4">
                         <div class="card border-0"
@@ -210,6 +245,74 @@ $listArticles = $article->All_Articles();
         </div>
     </div>
 
+    <div class="container-fluid pt-4 pb-3">
+        <div class="container">
+            <div class="row align-items-center">
+                <!-- Pagination (left-aligned) -->
+                <div class="col-md-10 order-md-1">
+                    <nav>
+                        <ul class="pagination justify-content-start mb-0">
+                            <li class="page-item">
+                                <?php
+                                if ($page > 1) {
+                                    $previous = $page - 1;
+                                    echo "<a class='page-link' href='?page=$previous'><i class='fa fa-angle-double-left'></i></a>";
+                                } else {
+                                    echo "<a class='page-link' href='?page=1'><i class='fa fa-angle-double-left'></i></a>";
+                                }
+                                ?>
+                            </li>
+                            <?php
+                            for ($i = 1; $i <= $nbrePages; $i++) {
+                                if ($page == $i) {
+                                    echo "<li class='page-item active'><a class='page-link' href='#'>$i<span class='sr-only'></span></a></li>";
+                                } else {
+                                    echo "<li class='page-item'><a class='page-link' href='?page=$i'>$i</a></li>";
+                                }
+                            }
+                            ?>
+                            <li class="page-item">
+                                <?php
+                                if ($page < $nbrePages) {
+                                    $suivant = $page + 1;
+                                    echo "<a class='page-link' href='?page=$suivant'><i class='fa fa-angle-double-right'></i></a>";
+                                } else {
+                                    echo "<a class='page-link' href='?page=$nbrePages'><i class='fa fa-angle-double-right'></i></a>";
+                                }
+                                ?>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+
+                <!-- Select Dropdown (right-aligned) -->
+                <div class="col-md-2 order-md-2 text-md-end">
+                    <form action="./List_Articles.php" method="get">
+                        <select class="form-control" name="nbr_article" onchange="this.form.submit()">
+                            <option value="" selected>Choisissez Nombre d'article à afficher</option>
+                            <?php if ($nbr_article == 3): ?>
+                                <option value="3" selected>3</option>
+                            <?php else: ?>
+                                <option value="3">3</option>
+                            <?php endif; ?>
+                            <?php if ($nbr_article == 6): ?>
+                                <option value="6" selected>6</option>
+                            <?php else: ?>
+                                <option value="6">6</option>
+                            <?php endif; ?>
+                            <?php if ($nbr_article == 9): ?>
+                                <option value="9" selected>9</option>
+                            <?php else: ?>
+                                <option value="9">9</option>
+                            <?php endif; ?>
+                        </select>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
 
     <!-- Rent A Car End -->
 
@@ -233,11 +336,13 @@ $listArticles = $article->All_Articles();
                 <h4 class="text-uppercase text-light mb-4">Liens vers Autres</h4>
                 <div class="d-flex flex-column justify-content-start">
                     <a class="text-body mb-2" href="#"><i class="fa fa-angle-right text-white mr-2"></i>Acceuil</a>
-                    <a class="text-body mb-2" href="#"><i class="fa fa-angle-right text-white mr-2"></i>Liste des
+                    <a class="text-body mb-2" href="#"><i class="fa fa-angle-right text-white mr-2"></i>Liste
+                        des
                         voitures</a>
                     <a class="text-body mb-2" href="#"><i class="fa fa-angle-right text-white mr-2"></i>Category</a>
                     <a class="text-body mb-2" href="#"><i class="fa fa-angle-right text-white mr-2"></i>S'inscrire</a>
-                    <a class="text-body mb-2" href="#"><i class="fa fa-angle-right text-white mr-2"></i>Se connecter</a>
+                    <a class="text-body mb-2" href="#"><i class="fa fa-angle-right text-white mr-2"></i>Se
+                        connecter</a>
                     <a class="text-body" href="#"><i class="fa fa-angle-right text-white mr-2"></i>Contact</a>
                 </div>
             </div>

@@ -2,15 +2,39 @@
 
 class Article
 {
+
+    private $lignes_par_page = 6;
     private $Conx_DataBase;
     public function __construct($db)
     {
         $this->Conx_DataBase = $db;
     }
 
-    public function All_Articles()
+    public function getLinesParPage()
     {
-        $query = $this->Conx_DataBase->prepare("SELECT * FROM articles, themes, utilisateurs WHERE articles.id_theme = themes.id_theme AND articles.utilisateur_id = utilisateurs.id_utilisateur");
+        return $this->lignes_par_page;
+    }
+
+
+    public function setLinesParPage($lignes_par_page)
+    {
+        $this->lignes_par_page = $lignes_par_page;
+    }
+
+    public function Nbr_Articles()
+    {
+        $query = $this->Conx_DataBase->prepare("SELECT count(*) AS total FROM articles");
+        $query->execute();
+        $result = $query->fetch();
+        return $result['total'];
+    }
+
+    public function All_Articles($page = 1)
+    {
+        $offset = ($page - 1) * $this->lignes_par_page;
+        $query = $this->Conx_DataBase->prepare("SELECT * FROM articles, themes, utilisateurs WHERE articles.id_theme = themes.id_theme AND articles.utilisateur_id = utilisateurs.id_utilisateur LIMIT :offset, :limit");
+        $query->bindParam(':offset', $offset, PDO::PARAM_INT);
+        $query->bindParam(':limit', var: $this->lignes_par_page, type: PDO::PARAM_INT);
         $query->execute();
         $listArticles = $query->fetchAll();
         return $listArticles;
