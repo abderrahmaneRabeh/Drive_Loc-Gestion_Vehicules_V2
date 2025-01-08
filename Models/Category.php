@@ -1,12 +1,11 @@
 <?php
-// require "Database.php";
-class Category extends Database
+class Category
 {
 
     private $Conx_DataBase;
-    public function __construct()
+    public function __construct($db)
     {
-        $this->Conx_DataBase = $this->connect_Db();
+        $this->Conx_DataBase = $db;
     }
 
     public function getCategories()

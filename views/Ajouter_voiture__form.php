@@ -3,10 +3,12 @@ session_start();
 require_once '../Controllers/ListVoitureController.php';
 require_once '../Controllers/ListCategories.php';
 require_once '../middleware/Check_user_connexion.php';
+require_once '../Models/Database.php';
 AjouterFormCheck();
+$db = new Database();
 
 
-$GategoryController = new ListCategoriesController();
+$GategoryController = new ListCategoriesController($db->connect_Db());
 $categories = $GategoryController->List_Categories();
 ?>
 

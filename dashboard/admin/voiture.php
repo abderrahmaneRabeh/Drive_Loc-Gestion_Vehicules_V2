@@ -2,6 +2,9 @@
 session_start();
 require_once '../../middleware/Check_user_connexion.php';
 require_once '../../Models/Voiture.php';
+require_once '../../Models/Database.php';
+
+$db = new Database();
 
 Dashboard_admin_check_roleConnect();
 
@@ -11,7 +14,7 @@ if (isset($_GET['page'])) {
     $page = 1;
 }
 
-$ListVoitureController = new Voiture();
+$ListVoitureController = new Voiture($db->connect_Db());
 $listVoiture = $ListVoitureController->getVoitures($page);
 
 $totalLignes = $ListVoitureController->Nbr_Voiture();

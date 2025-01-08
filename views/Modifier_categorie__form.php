@@ -1,11 +1,13 @@
 <?php
 session_start();
 require_once '../middleware/Check_user_connexion.php';
-require_once '../Controllers/ListVoitureController.php';
 require_once '../Controllers/ListCategories.php';
+require_once '../Models/Database.php';
+
+$db = new Database();
 AjouterFormCheck();
 
-$categoryController = new ListCategoriesController();
+$categoryController = new ListCategoriesController($db->connect_Db());
 
 if (isset($_GET['id'])) {
 

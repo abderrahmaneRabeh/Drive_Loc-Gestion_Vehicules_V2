@@ -4,11 +4,13 @@ session_start();
 require_once '../middleware/Check_user_connexion.php';
 require_once '../Controllers/ListVoitureController.php';
 require_once '../Controllers/ListCategories.php';
+require_once '../Models/Database.php';
 
 Dashboard_admin_check_roleConnect();
+$db = new Database();
 
-$ListVoitureController = new ListVoitureController();
-$GategoryController = new ListCategoriesController();
+$ListVoitureController = new ListVoitureController($db->connect_Db());
+$GategoryController = new ListCategoriesController($db->connect_Db());
 
 
 if (isset($_GET['id'])) {

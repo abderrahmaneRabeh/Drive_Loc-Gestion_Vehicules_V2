@@ -1,11 +1,15 @@
 <?php
 session_start();
 require_once '../../middleware/Check_user_connexion.php';
-require_once '../../Models/Voiture.php';
 require_once '../../Models/Category.php';
+require_once '../../Models/Database.php';
 Dashboard_admin_check_roleConnect();
 
-$GategoryController = new Category();
+$db = new Database();
+
+$db->connect_Db();
+
+$GategoryController = new Category($db->connect_Db());
 $categories = $GategoryController->getCategories();
 
 

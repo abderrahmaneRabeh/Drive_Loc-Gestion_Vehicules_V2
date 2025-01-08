@@ -2,13 +2,19 @@
 session_start();
 require_once '../middleware/Check_user_connexion.php';
 require_once '../Controllers/ListVoitureController.php';
+require_once '../Models/Database.php';
 Check_List_Voiture_Page();
+
+$db = new Database();
+
+$voiture = new Voiture($db->connect_Db());
+
 
 
 if (isset($_GET['id'])) {
     $id = $_GET['id'];
 
-    $ListVoitureController = new ListVoitureController();
+    $ListVoitureController = new ListVoitureController($db->connect_Db());
     $voiture = $ListVoitureController->Get_One_Voiture($id);
     $isClientReserved = $ListVoitureController->CheckClientReservationPourFaireAvis($_SESSION['user']['id_utilisateur'], $id);
 

@@ -1,6 +1,9 @@
 <?php
 session_start();
 require_once '../Models/Voiture.php';
+require_once '../Models/Database.php';
+
+$db = new Database();
 
 class Ajouter_Voiture_Controller extends Voiture
 {
@@ -11,7 +14,7 @@ class Ajouter_Voiture_Controller extends Voiture
     }
 }
 
-$Ajouter_Voiture_Controller = new Ajouter_Voiture_Controller();
+$Ajouter_Voiture_Controller = new Ajouter_Voiture_Controller($db->connect_Db());
 $tout_est_effectuer = true;
 
 

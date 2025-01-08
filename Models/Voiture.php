@@ -1,15 +1,13 @@
 <?php
 
-require "Database.php";
-
-class Voiture extends Database
+class Voiture
 {
     private $lignes_par_page = 6;
     private $Conx_DataBase;
 
-    public function __construct()
+    public function __construct($db)
     {
-        $this->Conx_DataBase = $this->connect_Db();
+        $this->Conx_DataBase = $db;
     }
     public function getLinesParPage()
     {
@@ -18,7 +16,7 @@ class Voiture extends Database
 
     public function Nbr_Voiture()
     {
-        $query = $this->conx->prepare("SELECT count(*) AS total FROM vehicule");
+        $query = $this->Conx_DataBase->prepare("SELECT count(*) AS total FROM vehicule");
         $query->execute();
         $result = $query->fetch();
         return $result['total'];

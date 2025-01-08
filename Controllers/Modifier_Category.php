@@ -3,6 +3,8 @@ session_start();
 require_once '../Models/Database.php';
 require_once '../Models/Category.php';
 
+$db = new Database();
+
 class Modifier_CategoryController extends Category
 {
     public function Modifier($id, $category_name)
@@ -12,7 +14,7 @@ class Modifier_CategoryController extends Category
 }
 
 
-$Modifier_Category_Controller = new Modifier_CategoryController();
+$Modifier_Category_Controller = new Modifier_CategoryController($db->connect_Db());
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 

@@ -3,6 +3,8 @@ session_start();
 require_once '../Models/Database.php';
 require_once '../Models/Category.php';
 
+$db = new Database();
+
 class DeleteCategoryController extends Category
 {
     public function Delete($id)
@@ -11,7 +13,7 @@ class DeleteCategoryController extends Category
     }
 }
 
-$deleteCategoryController = new DeleteCategoryController();
+$deleteCategoryController = new DeleteCategoryController($db->connect_Db());
 
 if (isset($_GET['id'])) {
     $result = $deleteCategoryController->Delete($_GET['id']);

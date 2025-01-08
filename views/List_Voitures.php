@@ -2,6 +2,9 @@
 session_start();
 require_once '../middleware/Check_user_connexion.php';
 require_once '../Controllers/ListVoitureController.php';
+require_once '../Models/Database.php';
+
+$db = new Database();
 
 if (isset($_GET['page'])) {
     $page = $_GET['page'];
@@ -10,7 +13,7 @@ if (isset($_GET['page'])) {
 }
 
 Check_List_Voiture_Page();
-$ListVoitureController = new ListVoitureController();
+$ListVoitureController = new ListVoitureController($db->connect_Db());
 $recherche = "";
 
 if (isset($_GET['search'])) {

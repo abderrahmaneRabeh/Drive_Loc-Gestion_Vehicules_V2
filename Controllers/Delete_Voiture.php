@@ -1,6 +1,9 @@
 <?php
 session_start();
 require_once '../Models/Voiture.php';
+require_once '../Models/Database.php';
+
+$db = new Database();
 
 class Delete_Voiture_Controller extends Voiture
 {
@@ -11,7 +14,7 @@ class Delete_Voiture_Controller extends Voiture
     }
 }
 
-$Delete_Voiture_Controller = new Delete_Voiture_Controller();
+$Delete_Voiture_Controller = new Delete_Voiture_Controller($db->connect_Db());
 $result = $Delete_Voiture_Controller->Delete($_GET['id']);
 
 if ($result) {

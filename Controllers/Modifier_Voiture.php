@@ -1,7 +1,9 @@
 <?php
 session_start();
 require_once '../Models/Voiture.php';
+require_once '../Models/Database.php';
 
+$db = new Database();
 class Modifier_Voiture_Controller extends Voiture
 {
     public function Modifier($id, $modele, $marque, $prixJournalier, $transmission, $couleur, $kilometrage, $voiture_img, $disponible, $category)
@@ -11,7 +13,7 @@ class Modifier_Voiture_Controller extends Voiture
 
 }
 
-$Modifier_Voiture_Controller = new Modifier_Voiture_Controller();
+$Modifier_Voiture_Controller = new Modifier_Voiture_Controller($db->connect_Db());
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $id = $_POST['id'];

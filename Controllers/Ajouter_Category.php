@@ -3,6 +3,8 @@ session_start();
 require_once '../Models/Database.php';
 require_once '../Models/Category.php';
 
+$db = new Database();
+
 class Ajouter_CategoryController extends Category
 {
 
@@ -13,7 +15,7 @@ class Ajouter_CategoryController extends Category
 }
 
 
-$Ajouter_Category_Controller = new Ajouter_CategoryController();
+$Ajouter_Category_Controller = new Ajouter_CategoryController($db->connect_Db());
 $tout_est_effectuer = true;
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
