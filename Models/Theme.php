@@ -26,7 +26,7 @@ class Theme
 
     public function getThemeArticles($id)
     {
-        $query = $this->Conx_DataBase->prepare("SELECT * FROM articles WHERE id_theme = :id");
+        $query = $this->Conx_DataBase->prepare("SELECT * FROM articles join themes on articles.id_theme = themes.id_theme WHERE articles.id_theme = :id");
         $query->bindValue(':id', $id);
         $query->execute();
         $articles = $query->fetchAll();

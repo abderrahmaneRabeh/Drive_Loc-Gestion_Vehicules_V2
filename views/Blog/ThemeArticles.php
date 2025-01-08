@@ -45,6 +45,17 @@ if (isset($_GET['id_theme'])) {
 
     <!-- Template Stylesheet -->
     <link href="../../../../assets/css/style.css" rel="stylesheet">
+    <style>
+        .card:hover {
+            transform: translateY(-5px);
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+        }
+
+        .card-title {
+            margin-bottom: 10px;
+        }
+    </style>
 </head>
 
 <body>
@@ -154,32 +165,36 @@ if (isset($_GET['id_theme'])) {
 
     <!-- Rent A Car Start -->
     <div class="container-fluid py-5">
-        <div class="container pt-5 pb-3">
-            <h2 class="display-5 text-uppercase text-center mb-5">Explorer les differents themes</h2>
+        <div class="container  pb-3">
 
-            <div class="row">
+            <?php if (!empty($ListThemeArticles)): ?>
+                <h2 class="display-5 text-uppercase text-center mb-5"><?= $ListThemeArticles[0]['theme_name']; ?></h2>
+                <div class="row">
 
-                <?php foreach ($ListThemeArticles as $article): ?>
-                    <div class="col-md-4 mb-4">
-                        <div class="card border-0"
-                            style="overflow: hidden; border-radius: 5px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
-                            <img class="card-img-top" src="<?= $article['image_article']; ?>" alt="Image de l'article"
-                                style="height: 180px; object-fit: cover;">
-                            <div class="card-body" style="padding: 20px;">
-                                <h5 class="card-title text-dark" style="font-weight: 600; font-size: 1.2rem;">
-                                    <?= $article['article_title']; ?>
-                                </h5>
-                                <p class="card-text text-secondary" style="font-size: 0.95rem; line-height: 1.5;">
-                                    <?= substr($article['article_description'], 0, 50) . '...'; ?>
-                                </p>
-                                <a href="./ArticleDetails.php?article_id=<?= $article['id_article']; ?>"
-                                    class="btn btn-primary"
-                                    style="font-size: 0.9rem; padding: 10px 20px; border-radius: 5px;">En savoir plus</a>
+                    <?php foreach ($ListThemeArticles as $article): ?>
+                        <div class="col-md-4 mb-4">
+                            <div class="card border-0"
+                                style="overflow: hidden; border-radius: 5px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
+                                <img class="card-img-top" src="<?= $article['image_article']; ?>" alt="Image de l'article"
+                                    style="height: 180px; object-fit: cover;">
+                                <div class="card-body" style="padding: 20px;">
+                                    <h5 class="card-title text-dark" style="font-weight: 600; font-size: 1.2rem;">
+                                        <?= substr($article['article_title'], 0, 40) . '...'; ?>
+                                    </h5>
+                                    <p class="card-text text-secondary" style="font-size: 0.95rem; line-height: 1.5;">
+                                        <?= substr($article['article_description'], 0, 70) . '...'; ?>
+                                    </p>
+                                    <a href="./ArticleDetails.php?article_id=<?= $article['id_article']; ?>"
+                                        class="btn btn-primary"
+                                        style="font-size: 0.9rem; padding: 10px 20px; border-radius: 5px;">En savoir plus</a>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                <?php endforeach; ?>
-            </div>
+                    <?php endforeach; ?>
+                </div>
+            <?php else: ?>
+                <p class="text-center">Aucun article disponible pour ce thème.</p>
+            <?php endif; ?>
         </div>
     </div>
 
