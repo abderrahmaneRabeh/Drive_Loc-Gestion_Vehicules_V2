@@ -22,7 +22,7 @@ class Commentaire extends Database
 
     public function getArticleCommentaires($article_id)
     {
-        $query = $this->Conx_DataBase->prepare("SELECT * FROM commentaires WHERE id_article = :article_id");
+        $query = $this->Conx_DataBase->prepare("SELECT * FROM commentaires WHERE id_article = :article_id Order by id_comment DESC");
         $query->bindParam(':article_id', $article_id);
         $query->execute();
         $commentaires = $query->fetchAll();
@@ -43,6 +43,24 @@ class Commentaire extends Database
         $query->bindParam(':id', $id);
         $query->execute();
         return $query->rowCount();
+    }
+
+    public function UpdateCommentaire($id, $commentaire)
+    {
+        $query = $this->Conx_DataBase->prepare("UPDATE commentaires SET commentaire = :commentaire WHERE id_comment = :id");
+        $query->bindParam(':commentaire', $commentaire);
+        $query->bindParam(':id', $id);
+        $query->execute();
+        return $query->rowCount();
+    }
+
+    public function DeleteCommentairesByArticle($id)
+    {
+        $query = $this->Conx_DataBase->prepare("DELETE FROM commentaires WHERE id_comment = :id");
+        $query->bindParam(':id', $id);
+        $query->execute();
+        return $query->rowCount();
+
     }
 
 

@@ -223,6 +223,18 @@ if (isset($_GET['article_id'])) {
                     </div>
                 </div>
             </form>
+            <div class="alert-wrapper">
+                <?php
+                if (isset($_SESSION["success_commentaire"])) {
+                    echo "<div class=\"alert alert-success\">" . $_SESSION["success_commentaire"] . "</div>";
+                    unset($_SESSION["success_commentaire"]);
+                }
+                if (isset($_SESSION["error_commentaire"])) {
+                    echo "<div class=\"alert alert-danger\">" . $_SESSION["error_commentaire"] . "</div>";
+                    unset($_SESSION["error_commentaire"]);
+                }
+                ?>
+            </div>
             <div class="row">
                 <div class="col-12  mb-5">
                     <h4 class="text-dark" style="font-weight: 600; font-size: 2rem; margin-bottom: 20px;">Commentaires
@@ -232,6 +244,20 @@ if (isset($_GET['article_id'])) {
                             <div class="media-body">
                                 <h5 class="mt-0"><?= $comment['utilisateur_nom']; ?></h5>
                                 <p><?= $comment['commentaire']; ?></p>
+                                <?php if (isset($_SESSION['user']) && $_SESSION['user']['id_utilisateur'] == $comment['id_utilisateur']): ?>
+                                    <div class="text-right">
+                                        <button class="btn btn-sm btn-warning editCommentBtn"
+                                            data-id="<?= $comment['id_comment']; ?>"
+                                            data-content="<?= htmlspecialchars($comment['commentaire']); ?>" data-toggle="modal"
+                                            data-target="#editCommentModal">
+                                            <i class="fa fa-edit"></i>
+                                        </button>
+                                        <a href="../../Controllers/SupprimerCommentaire.php?comment_id=<?= $comment['id_comment']; ?>&article_id=<?= $article['id_article']; ?>"
+                                            class="btn btn-sm btn-danger"
+                                            onclick="return confirm('Voulez-vous vraiment supprimer ce commentaire ?')"><i
+                                                class="fa fa-trash"></i></a>
+                                    </div>
+                                <?php endif; ?>
                             </div>
                         </div>
                         <hr>
@@ -241,6 +267,38 @@ if (isset($_GET['article_id'])) {
         </div>
     </div>
     <!-- Rent A Car End -->
+
+    <!-- Edit Comment Modal -->
+    <div class="modal fade" id="editCommentModal" tabindex="-1" role="dialog" aria-labelledby="editCommentModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <form id="editCommentForm" method="post" action="../../Controllers/ModifierCommentaire.php">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="editCommentModalLabel">Modifier le commentaire</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <input type="hidden" id="commentId" name="comment_id">
+                        <input type="hidden" name="article_id" value="<?= $article['id_article']; ?>">
+                        <div class="form-group">
+                            <label for="editCommentText">Commentaire</label>
+                            <textarea class="form-control" id="editCommentText" name="comment" rows="3"
+                                required></textarea>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+                        <button type="submit" class="btn btn-primary">Enregistrer</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
 
 
     <!-- Footer Start -->
@@ -311,6 +369,21 @@ if (isset($_GET['article_id'])) {
 
     <!-- Template Javascript -->
     <script src="../../assets/js/main.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const editCommentButtons = document.querySelectorAll('.editCommentBtn');
+            editCommentButtons.forEach(button => {
+                button.addEventListener('click', function () {
+                    const commentId = this.getAttribute('data-id');
+                    const commentContent = this.getAttribute('data-content');
+                    document.getElementById('commentId').value = commentId;
+                    document.getElementById('editCommentText').value = commentContent;
+                });
+            });
+        });
+    </script>
+
 </body>
 
 </html>
