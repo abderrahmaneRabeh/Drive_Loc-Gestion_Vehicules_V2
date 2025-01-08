@@ -1,21 +1,18 @@
 <?php
 
-require "Database.php";
-
-
-class Sinscrire extends Database
+class Sinscrire
 {
 
-    private $Conx_DataBase;
+    public $Conx_DataBase;
     private $nom;
     private $email;
     private $pw;
     private $ConfirmPw;
     private $HashedPassword;
 
-    public function __construct()
+    public function __construct($db)
     {
-        $this->Conx_DataBase = $this->connect_Db();
+        $this->Conx_DataBase = $db;
 
     }
 

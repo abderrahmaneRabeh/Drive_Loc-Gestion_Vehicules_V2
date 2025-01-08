@@ -1,11 +1,11 @@
 <?php
 
-class User extends Database
+class User
 {
     private $Conx_DataBase;
-    public function __construct()
+    public function __construct($db)
     {
-        $this->Conx_DataBase = $this->connect_Db();
+        $this->Conx_DataBase = $db;
     }
 
     public function get_User($email)

@@ -6,6 +6,9 @@ require_once '../../Models/Theme.php';
 
 if (isset($_GET['id_theme'])) {
     $id_theme = $_GET['id_theme'];
+
+    $Theme = new Theme();
+    $ListThemeArticles = $Theme->getThemeArticles($id_theme);
 }
 
 ?>
@@ -146,25 +149,33 @@ if (isset($_GET['id_theme'])) {
     <!-- Navbar End -->
 
 
-    <!-- Page Header Start -->
-    <div class="container-fluid page-header mt-5">
-        <h1 class="display-3 text-uppercase text-white mb-3">List Themes</h1>
-        <div class="d-inline-flex text-white">
-            <h6 class="text-uppercase m-0"><a class="text-white" href="">Home</a></h6>
-            <h6 class="text-body m-0 px-3">/</h6>
-            <h6 class="text-uppercase text-body m-0">List Themes</h6>
-        </div>
-    </div>
-    <!-- Page Header Start -->
-
-
     <!-- Rent A Car Start -->
     <div class="container-fluid py-5">
         <div class="container pt-5 pb-3">
-            <h1 class="display-4 text-uppercase text-center mb-5">Explorer les differents themes</h1>
+            <h2 class="display-5 text-uppercase text-center mb-5">Explorer les differents themes</h2>
 
             <div class="row">
-                <h1>test</h1>
+
+                <?php foreach ($ListThemeArticles as $article): ?>
+                    <div class="col-md-4 mb-4">
+                        <div class="card border-0"
+                            style="overflow: hidden; border-radius: 5px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
+                            <img class="card-img-top" src="<?= $article['image_article']; ?>" alt="Image de l'article"
+                                style="height: 180px; object-fit: cover;">
+                            <div class="card-body" style="padding: 20px;">
+                                <h5 class="card-title text-dark" style="font-weight: 600; font-size: 1.2rem;">
+                                    <?= $article['article_title']; ?>
+                                </h5>
+                                <p class="card-text text-secondary" style="font-size: 0.95rem; line-height: 1.5;">
+                                    <?= substr($article['article_description'], 0, 50) . '...'; ?>
+                                </p>
+                                <a href="./ArticleDetails.php?article_id=<?= $article['id_article']; ?>"
+                                    class="btn btn-primary"
+                                    style="font-size: 0.9rem; padding: 10px 20px; border-radius: 5px;">En savoir plus</a>
+                            </div>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
             </div>
         </div>
     </div>

@@ -2,9 +2,12 @@
 session_start();
 require_once '../../middleware/Check_user_connexion.php';
 require_once '../../Models/Article.php';
+require_once '../../Models/Database.php';
 checkBlogAjouterPage();
 
-$articleObj = new Article();
+$db = new Database();
+
+$articleObj = new Article($db->connect_Db());
 
 
 if (isset($_GET['id'])) {

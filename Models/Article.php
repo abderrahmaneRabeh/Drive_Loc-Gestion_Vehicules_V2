@@ -1,13 +1,11 @@
 <?php
 
-require_once 'Database.php';
-
-class Article extends Database
+class Article
 {
     private $Conx_DataBase;
-    public function __construct()
+    public function __construct($db)
     {
-        $this->Conx_DataBase = $this->connect_Db();
+        $this->Conx_DataBase = $db;
     }
 
     public function All_Articles()

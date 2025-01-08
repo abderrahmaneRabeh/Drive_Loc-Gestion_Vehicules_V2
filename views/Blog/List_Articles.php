@@ -2,9 +2,12 @@
 session_start();
 require_once '../../middleware/Check_user_connexion.php';
 require_once '../../Models/Article.php';
+require_once '../../Models/Database.php';
 checkBlogPage();
 
-$article = new Article();
+
+$db = new Database();
+$article = new Article($db->connect_Db());
 $listArticles = $article->All_Articles();
 
 ?>

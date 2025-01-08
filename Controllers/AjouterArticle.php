@@ -1,9 +1,12 @@
 <?php
 session_start();
+require_once '../Models/Database.php';
 require_once '../Models/Article.php';
 
+$db = new Database();
 
-$Ajouter_Article_Controller = new Article();
+
+$Ajouter_Article_Controller = new Article($db->connect_Db());
 $tout_est_effectuer = true;
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {

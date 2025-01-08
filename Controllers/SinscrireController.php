@@ -1,6 +1,7 @@
 <?php
 require_once '../Models/Sinscrire.php';
 require_once '../Models/user.php';
+require_once '../Models/Database.php';
 
 class SinscrireController extends Sinscrire
 {
@@ -10,7 +11,7 @@ class SinscrireController extends Sinscrire
         if ($result) {
             session_start();
 
-            $user = new User();
+            $user = new User($this->Conx_DataBase);
             $utilisateurSelectioner = $user->get_User($email);
 
             $_SESSION['user'] = $utilisateurSelectioner;
@@ -27,13 +28,15 @@ class SinscrireController extends Sinscrire
 
 // traitement de S'inscrire
 
+$db = new Database();
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $nom = $_POST['nom'];
     $email = $_POST['email'];
     $pw = $_POST['motDePasse'];
     $ConfirmPw = $_POST['confirmerMotDePasse'];
 
-    $AuthController = new SinscrireController();
+    $AuthController = new SinscrireController($db->connect_Db());
     $AuthController->RegisterController($nom, $email, $pw, $ConfirmPw);
 
 }

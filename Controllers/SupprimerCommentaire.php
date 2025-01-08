@@ -2,8 +2,12 @@
 session_start();
 require_once '../Models/Article.php';
 require_once '../Models/Commentaire.php';
+require_once '../Models/Database.php';
 
-$commentaireObj = new Commentaire();
+$db = new Database();
+
+
+$commentaireObj = new Commentaire($db->connect_Db());
 
 
 if (isset($_GET['comment_id'])) {

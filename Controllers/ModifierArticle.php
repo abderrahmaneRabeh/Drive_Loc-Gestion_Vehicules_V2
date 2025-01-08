@@ -1,9 +1,11 @@
 <?php
 session_start();
 require_once '../Models/Article.php';
+require_once '../Models/Database.php';
 
+$db = new Database();
 
-$Ajouter_Article_Controller = new Article();
+$Modifier_Article_Controller = new Article($db->connect_Db());
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
@@ -13,7 +15,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $title_article = $_POST['article_title'];
     $article_description = $_POST['article_description'];
 
-    $result = $Ajouter_Article_Controller->Modifier_Article($_POST['article_id'], $image_article_url, $title_article, $video_article_url, $theme_id, $article_description);
+    $result = $Modifier_Article_Controller->Modifier_Article($_POST['article_id'], $image_article_url, $title_article, $video_article_url, $theme_id, $article_description);
 
     if ($result) {
         $_SESSION["success_article"] = "Article ajouter avec success";

@@ -1,8 +1,12 @@
 <?php
 session_start();
 require_once '../Models/Article.php';
+require_once '../Models/Database.php';
 
-$article = new Article();
+$db = new Database();
+
+
+$article = new Article($db->connect_Db());
 
 if (isset($_GET['id'])) {
     $id = $_GET['id'];

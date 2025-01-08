@@ -2,9 +2,13 @@
 session_start();
 require_once '../../middleware/Check_user_connexion.php';
 require_once '../../Models/Article.php';
+require_once '../../Models/Database.php';
 Dashboard_admin_check_roleConnect();
 
-$article = new Article();
+$db = new Database();
+
+
+$article = new Article($db->connect_Db());
 $listArticles = $article->All_Articles();
 
 
@@ -213,7 +217,9 @@ $listArticles = $article->All_Articles();
                         <?php foreach ($listArticles as $article) { ?>
                             <tr>
                                 <td><?= $article['id_article'] ?></td>
-                                <td><?= $article['article_title']; ?></td>
+                                <td><a style="color: #fff;"
+                                        href="../../views/Blog/ArticleDetails.php?article_id=<?= $article['id_article']; ?>"><?= $article['article_title']; ?></a>
+                                </td>
                                 <td>
                                     <?php if ($article['active_article'] == 1): ?>
                                         <span class="badge badge-success">Oui</span>

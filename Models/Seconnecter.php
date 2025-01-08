@@ -1,16 +1,14 @@
 <?php
 
-require "Database.php";
-
-class Seconnecter extends Database
+class Seconnecter
 {
-    private $Conx_DataBase;
+    public $Conx_DataBase;
     private $email;
     private $pw;
 
-    public function __construct()
+    public function __construct($db)
     {
-        $this->Conx_DataBase = $this->connect_Db();
+        $this->Conx_DataBase = $db;
     }
 
     public function Login($email, $pw)

@@ -1,12 +1,11 @@
 <?php
-// require "Database.php";
-class Commentaire extends Database
+class Commentaire
 {
 
     private $Conx_DataBase;
-    public function __construct()
+    public function __construct($db)
     {
-        $this->Conx_DataBase = $this->connect_Db();
+        $this->Conx_DataBase = $db;
     }
 
     public function AjouterCommentaire($commentaire, $article_id, $utilisateur_id, $utilisateur_nom)

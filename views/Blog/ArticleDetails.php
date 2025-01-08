@@ -3,10 +3,14 @@ session_start();
 require_once '../../middleware/Check_user_connexion.php';
 require_once '../../Models/Article.php';
 require_once '../../Models/Commentaire.php';
+require_once '../../Models/Database.php';
+
+$db = new Database();
+
 checkBlogPage();
 
-$articleObj = new Article();
-$commentaireObj = new Commentaire();
+$articleObj = new Article($db->connect_Db());
+$commentaireObj = new Commentaire($db->connect_Db());
 
 if (isset($_GET['article_id'])) {
     $id = $_GET['article_id'];

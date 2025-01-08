@@ -2,7 +2,11 @@
 session_start();
 require_once '../Models/Article.php';
 require_once '../Models/Commentaire.php';
-$commentaireObj = new Commentaire();
+require_once '../Models/Database.php';
+
+$db = new Database();
+
+$commentaireObj = new Commentaire($db->connect_Db());
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $article_id = $_POST['article_id'];

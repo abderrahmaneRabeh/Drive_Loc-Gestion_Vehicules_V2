@@ -2,9 +2,14 @@
 session_start();
 require_once '../../middleware/Check_user_connexion.php';
 require_once '../../Models/Article.php';
+require_once '../../Models/Database.php';
 Dashboard_client_check_roleConnect();
 
-$article = new Article();
+
+$db = new Database();
+
+$article = new Article($db->connect_Db());
+
 $listArticles = $article->get_user_articles($_SESSION['user']['id_utilisateur']);
 
 
