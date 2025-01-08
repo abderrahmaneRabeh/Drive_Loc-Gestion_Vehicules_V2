@@ -1,15 +1,15 @@
 <?php
 session_start();
 require_once '../../middleware/Check_user_connexion.php';
-require_once '../../Models/Commentaire.php';
+require_once '../../Models/Tag.php';
 require_once '../../Models/Database.php';
 Dashboard_admin_check_roleConnect();
 
 $db = new Database();
 
 
-$commentaire = new Commentaire($db->connect_Db());
-$listConmmentaires = $commentaire->getALlCommentaires();
+$Tag = new Tag($db->connect_Db());
+$listTags = $Tag->get_Tags();
 
 
 ?>
@@ -215,13 +215,13 @@ $listConmmentaires = $commentaire->getALlCommentaires();
             </div>
             <div class="alert-wrapper">
                 <?php
-                if (isset($_SESSION["success_article"])) {
-                    echo "<div class=\"alert alert-success\">" . $_SESSION["success_article"] . "</div>";
-                    unset($_SESSION["success_article"]);
+                if (isset($_SESSION["success"])) {
+                    echo "<div class=\"alert alert-success\">" . $_SESSION["success"] . "</div>";
+                    unset($_SESSION["success"]);
                 }
-                if (isset($_SESSION["error_article"])) {
-                    echo "<div class=\"alert alert-danger\">" . $_SESSION["error_article"] . "</div>";
-                    unset($_SESSION["error_article"]);
+                if (isset($_SESSION["error"])) {
+                    echo "<div class=\"alert alert-danger\">" . $_SESSION["error"] . "</div>";
+                    unset($_SESSION["error"]);
                 }
                 ?>
             </div>
@@ -229,7 +229,7 @@ $listConmmentaires = $commentaire->getALlCommentaires();
                 <!-- Add New Voiture Button -->
                 <div class="d-flex justify-content-between align-items-center mb-3">
                     <h2 style="color: white;">Liste des Tags</h2>
-                    <a href="../../views/Ajouter_voiture__form.php" class="btn"
+                    <a href="../../views/Blog/Ajouter_Tag__form.php" class="btn"
                         style="background-color: #fff; color: #000;">Ajouter Tag</a>
                 </div>
 
@@ -237,24 +237,22 @@ $listConmmentaires = $commentaire->getALlCommentaires();
                 <table class="table table-dark table-bordered table-hover">
                     <thead class="thead-light">
                         <tr>
-                            <th>ID Commentaire</th>
-                            <th>ID Article</th>
-                            <th>Commentaire</th>
-                            <th>Nom de l'utilisateur</th>
+                            <th>ID Tag</th>
+                            <th>Nom du Tag</th>
                             <th class="text-center">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <?php foreach ($listConmmentaires as $commentaire) { ?>
+                        <?php foreach ($listTags as $tag) { ?>
                             <tr>
-                                <td><?= $commentaire['id_comment'] ?></td>
-                                <td><?= substr($commentaire['article_title'], 0, 30) ?>...</td>
-                                <td><?= substr($commentaire['commentaire'], 0, 30) ?>...</td>
-                                <td><?= $commentaire['utilisateur_nom'] ?></td>
+                                <td><?= $tag['id_tag'] ?></td>
+                                <td><?= $tag['tag_name'] ?></td>
                                 <td class="text-center">
-                                    <a href="../../Controllers/SupprimerCommentaire.php?comment_id=<?= $commentaire['id_comment']; ?>&article_id=<?= $commentaire['id_article']; ?>"
+                                    <a href="../../views/Blog/Modifier_Tag__form.php?tag_id=<?= $tag['id_tag']; ?>"
+                                        class="btn btn-primary btn-sm">Modifier</a>
+                                    <a href="../../Controllers/SupprimerTag.php?tag_id=<?= $tag['id_tag']; ?>"
                                         class="btn btn-danger btn-sm"
-                                        onclick="return confirm('Voulez-vous supprimer ce commentaire ?')">Supprimer</a>
+                                        onclick="return confirm('Voulez-vous supprimer ce tag ?')">Supprimer</a>
                                 </td>
                             </tr>
                         <?php } ?>

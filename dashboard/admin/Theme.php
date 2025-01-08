@@ -239,7 +239,7 @@ $listThemes = $theme->getThemes();
                         <tr>
                             <th>ID Theme</th>
                             <th>Theme Name</th>
-                            <th>Actions</th>
+                            <th class="text-center">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
