@@ -28,9 +28,18 @@ class Commentaire
         return $commentaires;
     }
 
+    public function getUserCommentaires($utilisateur_id)
+    {
+        $query = $this->Conx_DataBase->prepare("SELECT * FROM commentaires Join Articles on commentaires.id_article = articles.id_article WHERE commentaires.id_utilisateur = :utilisateur_id ");
+        $query->bindParam(':utilisateur_id', $utilisateur_id);
+        $query->execute();
+        $commentaires = $query->fetchAll();
+        return $commentaires;
+    }
+
     public function getALlCommentaires()
     {
-        $query = $this->Conx_DataBase->prepare("SELECT * FROM commentaires");
+        $query = $this->Conx_DataBase->prepare("SELECT * FROM commentaires Join Articles on commentaires.id_article = articles.id_article");
         $query->execute();
         $commentaires = $query->fetchAll();
         return $commentaires;

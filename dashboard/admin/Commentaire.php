@@ -1,15 +1,15 @@
 <?php
 session_start();
 require_once '../../middleware/Check_user_connexion.php';
-require_once '../../Models/Article.php';
+require_once '../../Models/Commentaire.php';
 require_once '../../Models/Database.php';
 Dashboard_admin_check_roleConnect();
 
 $db = new Database();
 
 
-$article = new Article($db->connect_Db());
-$listArticles = $article->All_Articles();
+$commentaire = new Commentaire($db->connect_Db());
+$listConmmentaires = $commentaire->getALlCommentaires();
 
 
 ?>
@@ -21,7 +21,7 @@ $listArticles = $article->All_Articles();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard - Articles</title>
+    <title>Dashboard - Commontaire</title>
 
     <link rel="stylesheet" href="../css/style.css">
     <script defer src="../js/main.js"></script>
@@ -141,6 +141,31 @@ $listArticles = $article->All_Articles();
                         <span>Commentaire</span>
                     </a>
                 </li>
+                <li class="sidebar-list-item">
+                    <a href="./Theme.php">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                            class="feather feather-paint-brush">
+                            <path
+                                d="M19.5 13.5 12 21 4.5 13.5 5.67 12 1.5 2.41 5.63 1.49 4.5 0 12 10.5 19.5 0 18.37 2.41 22.5 13.5z" />
+                            <line x1="12" y1="10.5" x2="12" y2="22" />
+                        </svg>
+                        <span>Theme</span>
+                    </a>
+                </li>
+                <li class="sidebar-list-item">
+                    <a href="./Tags.php">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                            class="feather feather-hash">
+                            <line x1="4" y1="9" x2="20" y2="9" />
+                            <line x1="4" y1="15" x2="20" y2="15" />
+                            <line x1="10" y1="3" x2="8" y2="21" />
+                            <line x1="16" y1="3" x2="14" y2="21" />
+                        </svg>
+                        <span>Tags</span>
+                    </a>
+                </li>
             </ul>
             <div class="account-info">
                 <?php
@@ -168,7 +193,7 @@ $listArticles = $article->All_Articles();
         </div>
         <div class="app-content">
             <div class="app-content-header">
-                <h1 class="app-content-headerText">Voitures</h1>
+                <h1 class="app-content-headerText">Commentaires</h1>
                 <button class="mode-switch" title="Switch Theme">
                     <svg class="moon" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
                         stroke-width="2" width="24" height="24" viewBox="0 0 24 24">
@@ -201,60 +226,28 @@ $listArticles = $article->All_Articles();
                 ?>
             </div>
             <div class="products-area-wrapper tableView">
-                <!-- Add New Voiture Button -->
-                <div class="d-flex justify-content-between align-items-center mb-3">
-                    <h2 style="color: white;">Liste des Articles</h2>
-                    <a href="../../views/Blog/AjouterArticle__form.php" class="btn"
-                        style="background-color: #fff; color: #000;">Ajouter une Nouvelle
-                        Article</a>
-                </div>
-
                 <!-- start Table -->
                 <table class="table table-dark table-bordered table-hover">
                     <thead class="thead-light">
                         <tr>
+                            <th>ID Commentaire</th>
                             <th>ID Article</th>
-                            <th>Titre de l'article</th>
-                            <th>Actif</th>
-                            <th>Thème</th>
-                            <th>Auteur</th>
-                            <th>Description</th>
-                            <th>Date de publication</th>
+                            <th>Commentaire</th>
+                            <th>Nom de l'utilisateur</th>
                             <th class="text-center">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <?php foreach ($listArticles as $article) { ?>
+                        <?php foreach ($listConmmentaires as $commentaire) { ?>
                             <tr>
-                                <td><?= $article['id_article'] ?></td>
-                                <td><a style="color: #fff;"
-                                        href="../../views/Blog/ArticleDetails.php?article_id=<?= $article['id_article']; ?>"><?= $article['article_title']; ?></a>
-                                </td>
-                                <td>
-                                    <?php if ($article['active_article'] == 1): ?>
-                                        <span class="badge badge-success">Oui</span>
-                                    <?php elseif ($article['active_article'] == 2): ?>
-                                        <span class="badge badge-danger">Non</span>
-                                    <?php else: ?>
-                                        <form action="../../Controllers/ApproveArticle.php" method="POST">
-                                            <select name="active_article" onchange="this.form.submit()">
-                                                <option value="">Approver</option>
-                                                <option value="1">Accepter</option>
-                                                <option value="2">Refuser</option>
-                                            </select>
-                                            <input type="hidden" name="id_article" value="<?= $article['id_article']; ?>">
-                                        </form>
-                                    <?php endif; ?>
-
-                                </td>
-                                <td><?= $article['theme_name']; ?></td>
-                                <td><?= $article['username']; ?></td>
-                                <td><?= substr($article['article_description'], 0, 30) . '...'; ?></td>
-                                <td><?= $article['article_created_at']; ?></td>
+                                <td><?= $commentaire['id_comment'] ?></td>
+                                <td><?= substr($commentaire['article_title'], 0, 30) ?>...</td>
+                                <td><?= substr($commentaire['commentaire'], 0, 30) ?>...</td>
+                                <td><?= $commentaire['utilisateur_nom'] ?></td>
                                 <td class="text-center">
-                                    <a href="../../Controllers/Delete_article.php?id=<?= $article['id_article']; ?>"
+                                    <a href="../../Controllers/SupprimerCommentaire.php?comment_id=<?= $commentaire['id_comment']; ?>&article_id=<?= $commentaire['id_article']; ?>"
                                         class="btn btn-danger btn-sm"
-                                        onclick="return confirm('Voulez-vous supprimer cet article ?')">Supprimer</a>
+                                        onclick="return confirm('Voulez-vous supprimer ce commentaire ?')">Supprimer</a>
                                 </td>
                             </tr>
                         <?php } ?>

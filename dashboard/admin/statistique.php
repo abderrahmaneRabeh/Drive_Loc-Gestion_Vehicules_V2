@@ -154,6 +154,31 @@ $Nbr_reservation_annuler = count($statistique_reservation_annuler);
                         <span>Commentaire</span>
                     </a>
                 </li>
+                <li class="sidebar-list-item">
+                    <a href="./Theme.php">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                            class="feather feather-paint-brush">
+                            <path
+                                d="M19.5 13.5 12 21 4.5 13.5 5.67 12 1.5 2.41 5.63 1.49 4.5 0 12 10.5 19.5 0 18.37 2.41 22.5 13.5z" />
+                            <line x1="12" y1="10.5" x2="12" y2="22" />
+                        </svg>
+                        <span>Theme</span>
+                    </a>
+                </li>
+                <li class="sidebar-list-item">
+                    <a href="./Tags.php">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                            class="feather feather-hash">
+                            <line x1="4" y1="9" x2="20" y2="9" />
+                            <line x1="4" y1="15" x2="20" y2="15" />
+                            <line x1="10" y1="3" x2="8" y2="21" />
+                            <line x1="16" y1="3" x2="14" y2="21" />
+                        </svg>
+                        <span>Tags</span>
+                    </a>
+                </li>
             </ul>
             <div class="account-info">
                 <?php
