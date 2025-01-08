@@ -2,9 +2,12 @@
 session_start();
 require_once '../Models/Avis.php';
 require_once '../middleware/Check_user_connexion.php';
+require_once '../Models/Database.php';
 Check_Home_Page();
 
-$Avis = new Avis();
+$db = new Database();
+
+$Avis = new Avis($db->connect_Db());
 
 if (isset($_GET['id'])) {
     $id = $_GET['id'];

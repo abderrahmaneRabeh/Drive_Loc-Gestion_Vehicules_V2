@@ -1,8 +1,12 @@
 <?php
 session_start();
 require_once '../Models/Avis.php';
+require_once '../Models/Database.php';
 
-$avis = new Avis();
+$db = new Database();
+
+
+$avis = new Avis($db->connect_Db());
 
 if (isset($_GET['id'])) {
     $id = $_GET['id'];

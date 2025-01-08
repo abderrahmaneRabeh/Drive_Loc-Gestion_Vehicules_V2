@@ -1,6 +1,10 @@
 <?php
 session_start();
 require_once '../Models/Avis.php';
+require_once '../Models/Database.php';
+
+$db = new Database();
+
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
@@ -12,7 +16,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     echo "note: " . $note . "<br>";
     echo "contenu: " . $contenu . "<br>";
 
-    $avis = new Avis();
+    $avis = new Avis($db->connect_Db());
     $result = $avis->Modifier_Avis($id, $note, $contenu);
 
     if ($result) {

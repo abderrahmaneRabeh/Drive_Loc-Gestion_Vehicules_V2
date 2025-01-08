@@ -2,9 +2,12 @@
 session_start();
 require_once '../../middleware/Check_user_connexion.php';
 require_once '../../Models/Theme.php';
+require_once '../../Models/Database.php';
 checkBlogAjouterPage();
 
-$theme = new Theme();
+$db = new Database;
+
+$theme = new Theme($db->connect_Db());
 
 $listTags = $theme->get_Tags();
 $listThemes = $theme->getThemes();

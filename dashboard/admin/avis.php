@@ -2,9 +2,13 @@
 session_start();
 require_once '../../middleware/Check_user_connexion.php';
 require_once '../../Models/Avis.php';
+require_once '../../Models/Database.php';
+
+$db = new Database();
+
 Dashboard_admin_check_roleConnect();
 
-$avis = new Avis();
+$avis = new Avis($db->connect_Db());
 
 $list_avis = $avis->getAllAvis();
 
