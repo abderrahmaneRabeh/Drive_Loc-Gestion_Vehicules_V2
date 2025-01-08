@@ -2,8 +2,11 @@
 session_start();
 require_once '../../middleware/Check_user_connexion.php';
 require_once '../../Models/Theme.php';
+require_once '../../Models/Database.php';
 
-$Theme = new Theme();
+$db = new Database();
+
+$Theme = new Theme($db->connect_Db());
 $ListThemes = $Theme->getThemes();
 
 
@@ -145,19 +148,6 @@ $ListThemes = $Theme->getThemes();
         </div>
     </div>
     <!-- Navbar End -->
-
-
-    <!-- Page Header Start -->
-    <div class="container-fluid page-header mt-5">
-        <h1 class="display-3 text-uppercase text-white mb-3">List Themes</h1>
-        <div class="d-inline-flex text-white">
-            <h6 class="text-uppercase m-0"><a class="text-white" href="">Home</a></h6>
-            <h6 class="text-body m-0 px-3">/</h6>
-            <h6 class="text-uppercase text-body m-0">List Themes</h6>
-        </div>
-    </div>
-    <!-- Page Header Start -->
-
 
     <!-- Rent A Car Start -->
     <div class="container-fluid py-5">

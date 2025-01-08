@@ -2,12 +2,15 @@
 session_start();
 require_once '../../middleware/Check_user_connexion.php';
 require_once '../../Models/Theme.php';
+require_once '../../Models/Database.php';
+
+$db = new Database();
 
 
 if (isset($_GET['id_theme'])) {
     $id_theme = $_GET['id_theme'];
 
-    $Theme = new Theme();
+    $Theme = new Theme($db->connect_Db());
     $ListThemeArticles = $Theme->getThemeArticles($id_theme);
 }
 

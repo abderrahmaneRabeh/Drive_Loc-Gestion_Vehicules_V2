@@ -194,10 +194,10 @@ $listArticles = $article->All_Articles();
                                 style="height: 180px; object-fit: cover;">
                             <div class="card-body" style="padding: 20px;">
                                 <h5 class="card-title text-dark" style="font-weight: 600; font-size: 1.2rem;">
-                                    <?= $article['article_title']; ?>
+                                    <?= substr($article['article_title'], 0, 40) . '...'; ?>
                                 </h5>
                                 <p class="card-text text-secondary" style="font-size: 0.95rem; line-height: 1.5;">
-                                    <?= substr($article['article_description'], 0, 50) . '...'; ?>
+                                    <?= substr($article['article_description'], 0, 70) . '...'; ?>
                                 </p>
                                 <a href="./ArticleDetails.php?article_id=<?= $article['id_article']; ?>"
                                     class="btn btn-primary"
