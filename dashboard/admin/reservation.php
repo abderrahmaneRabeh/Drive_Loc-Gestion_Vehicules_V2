@@ -2,9 +2,13 @@
 session_start();
 require_once '../../middleware/Check_user_connexion.php';
 require_once '../../Models/Reservation.php';
+require_once '../../Models/Database.php';
+
+
 Dashboard_admin_check_roleConnect();
 
-$reservation = new Reservation();
+$db = new Database();
+$reservation = new Reservation($db->connect_Db());
 $listVoiture = $reservation->getAllReservations();
 
 ?>

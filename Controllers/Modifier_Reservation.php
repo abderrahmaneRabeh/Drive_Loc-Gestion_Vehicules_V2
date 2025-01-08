@@ -1,6 +1,12 @@
 <?php
 session_start();
 require_once '../Models/Reservation.php';
+require_once '../Models/Database.php';
+
+$db = new Database();
+
+$reservation = new Reservation($db->connect_Db());
+
 
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -28,7 +34,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     // Modifier la réservation
-    $reservation = new Reservation();
     $result = $reservation->UpdateReservationDate($id_reservation, $dateDebut, $dateFin);
 
     if ($result) {

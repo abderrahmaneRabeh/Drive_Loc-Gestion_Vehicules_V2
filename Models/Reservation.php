@@ -1,12 +1,11 @@
 <?php
-require "Database.php";
-class Reservation extends Database
+class Reservation
 {
 
     private $Conx_DataBase;
-    public function __construct()
+    public function __construct($db)
     {
-        $this->Conx_DataBase = $this->connect_Db();
+        $this->Conx_DataBase = $db;
     }
 
 

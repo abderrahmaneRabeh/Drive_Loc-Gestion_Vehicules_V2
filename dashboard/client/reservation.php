@@ -2,10 +2,15 @@
 session_start();
 require_once '../../middleware/Check_user_connexion.php';
 require_once '../../Models/Reservation.php';
+require_once '../../Models/Database.php';
+
+$db = new Database();
 
 Dashboard_client_check_roleConnect();
 $id = $_SESSION['user']['id_utilisateur'];
-$Reservation = new Reservation();
+
+$Reservation = new Reservation($db->connect_Db());
+
 $listReservation = $Reservation->getUserReservation($id);
 
 

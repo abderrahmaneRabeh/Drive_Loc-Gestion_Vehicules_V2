@@ -1,13 +1,17 @@
 <?php
 session_start();
 require_once '../Models/Reservation.php';
+require_once '../Models/Database.php';
+
+$db = new Database();
+
 require_once '../middleware/Check_user_connexion.php';
 Check_Home_Page();
 
 if (isset($_GET['id'])) {
     $id = $_GET['id'];
 
-    $ReservationObj = new Reservation();
+    $ReservationObj = new Reservation($db->connect_Db());
     $reservation = $ReservationObj->getReservationById($id);
 }
 ?>

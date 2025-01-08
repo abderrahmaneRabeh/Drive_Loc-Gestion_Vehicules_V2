@@ -2,11 +2,14 @@
 session_start();
 
 require_once '../Models/Reservation.php';
+require_once '../Models/Database.php';
+
+$db = new Database();
 
 if (isset($_GET['id'])) {
     $id = $_GET['id'];
 
-    $reservation = new Reservation();
+    $reservation = new Reservation($db->connect_Db());
     $result = $reservation->DeleteReservation($id);
 
     if ($result) {

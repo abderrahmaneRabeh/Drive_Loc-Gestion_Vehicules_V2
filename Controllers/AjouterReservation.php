@@ -2,7 +2,10 @@
 
 session_start();
 require_once '../Models/Reservation.php';
+require_once '../Models/Database.php';
 
+
+$db = new Database();
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
@@ -28,7 +31,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
 
-    $AjouterReservation = new Reservation();
+    $AjouterReservation = new Reservation($db->connect_Db());
     $result = $AjouterReservation->AjouterReservation($id_user, $id_vihicule, $date_debut, $date_fin, $lieuPriseEnCharge, $lieuRetour, $statut);
 
     if ($result) {
