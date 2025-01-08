@@ -2,10 +2,13 @@
 session_start();
 require_once '../../middleware/Check_user_connexion.php';
 require_once '../../Models/statistique.php';
+require_once '../../Models/Database.php';
 Dashboard_admin_check_roleConnect();
 
+$db = new Database();
 
-$statistique = new Statistique();
+
+$statistique = new Statistique($db->connect_Db());
 $statistique_utilisateur = $statistique->Statistique_utilisateur();
 $statistique_vehicule = $statistique->Statistique_vehicule();
 $statistique_avis = $statistique->Statistique_avis();
@@ -139,6 +142,16 @@ $Nbr_reservation_annuler = count($statistique_reservation_annuler);
                                 d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2zM14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h10z" />
                         </svg>
                         <span>Articles</span>
+                    </a>
+                </li>
+                <li class="sidebar-list-item">
+                    <a href="./Commentaire.php">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                            class="feather feather-message-square">
+                            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+                        </svg>
+                        <span>Commentaire</span>
                     </a>
                 </li>
             </ul>

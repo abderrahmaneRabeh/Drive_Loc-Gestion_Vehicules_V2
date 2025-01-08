@@ -1,12 +1,11 @@
 <?php
-require "Database.php";
-class Statistique extends Database
+class Statistique
 {
 
     private $Conx_DataBase;
-    public function __construct()
+    public function __construct($db)
     {
-        $this->Conx_DataBase = $this->connect_Db();
+        $this->Conx_DataBase = $db;
     }
 
     public function Statistique_utilisateur()
