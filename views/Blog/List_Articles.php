@@ -3,6 +3,7 @@ session_start();
 require_once '../../middleware/Check_user_connexion.php';
 require_once '../../Models/Article.php';
 require_once '../../Models/Theme.php';
+require_once '../../Models/Favorite.php';
 require_once '../../Models/Database.php';
 checkBlogPage();
 
@@ -18,6 +19,7 @@ if (isset($_GET['page'])) {
 $db = new Database();
 $article = new Article($db->connect_Db());
 $theme = new Theme($db->connect_Db());
+$favorite = new Favorite($db->connect_Db());
 
 if (isset($_GET['nbr_article'])) {
     $nbr_article = $_GET['nbr_article'];
@@ -28,6 +30,11 @@ $article->setLinesParPage(lignes_par_page: $nbr_article);
 
 $listThemes = $theme->getThemes();
 $listArticles = $article->All_Articles($page);
+$listFavorite = $favorite->getFavorites($_SESSION['user']['id_utilisateur']);
+
+// echo "<pre>";
+// print_r(value: $listFavorite);
+// echo "</pre>";
 
 
 // pagination
@@ -220,6 +227,18 @@ $nbrePages = ceil($nbrArticles / $lignesParPage);
                     </a>
                 </div>
             </div>
+            <div class="alert-wrapper">
+                <?php
+                if (isset($_SESSION["success"])) {
+                    echo "<div class=\"alert alert-success\">" . $_SESSION["success"] . "</div>";
+                    unset($_SESSION["success"]);
+                }
+                if (isset($_SESSION["error"])) {
+                    echo "<div class=\"alert alert-danger\">" . $_SESSION["error"] . "</div>";
+                    unset($_SESSION["error"]);
+                }
+                ?>
+            </div>
             <div class="row">
                 <?php foreach ($listArticles as $article): ?>
                     <div class="col-md-4 mb-4">
@@ -239,8 +258,10 @@ $nbrePages = ceil($nbrArticles / $lignesParPage);
                                         class="btn btn-primary"
                                         style="font-size: 0.9rem; padding: 10px 20px; border-radius: 5px;">En savoir
                                         plus</a>
-                                    <a href="../../Controllers/favoriteArticle.php" class="btn btn-link"><i
-                                            class="fas fa-heart"></i></a>
+
+                                    <?php if ($article) ?>
+                                    <a href="../../Controllers/favoriteArticle.php?article_id=<?= $article['id_article']; ?>"
+                                        class="btn btn-link"><i class="fas fa-heart"></i></a>
                                 </div>
                             </div>
                         </div>
@@ -261,9 +282,9 @@ $nbrePages = ceil($nbrArticles / $lignesParPage);
                                 <?php
                                 if ($page > 1) {
                                     $previous = $page - 1;
-                                    echo "<a class='page-link' href='?page=$previous'><i class='fa fa-angle-double-left'></i></a>";
+                                    echo "<a class='page-link' href='?&nbr_article=$nbr_article&page=$previous'><i class='fa fa-angle-double-left'></i></a>";
                                 } else {
-                                    echo "<a class='page-link' href='?page=1'><i class='fa fa-angle-double-left'></i></a>";
+                                    echo "<a class='page-link' href='?&nbr_article=$nbr_article&page=1'><i class='fa fa-angle-double-left'></i></a>";
                                 }
                                 ?>
                             </li>
@@ -272,7 +293,7 @@ $nbrePages = ceil($nbrArticles / $lignesParPage);
                                 if ($page == $i) {
                                     echo "<li class='page-item active'><a class='page-link' href='#'>$i<span class='sr-only'></span></a></li>";
                                 } else {
-                                    echo "<li class='page-item'><a class='page-link' href='?page=$i'>$i</a></li>";
+                                    echo "<li class='page-item'><a class='page-link' href='?nbr_article=$nbr_article&page=$i'>$i</a></li>";
                                 }
                             }
                             ?>
@@ -280,9 +301,9 @@ $nbrePages = ceil($nbrArticles / $lignesParPage);
                                 <?php
                                 if ($page < $nbrePages) {
                                     $suivant = $page + 1;
-                                    echo "<a class='page-link' href='?page=$suivant'><i class='fa fa-angle-double-right'></i></a>";
+                                    echo "<a class='page-link' href='?nbr_article=$nbr_article&page=$suivant'><i class='fa fa-angle-double-right'></i></a>";
                                 } else {
-                                    echo "<a class='page-link' href='?page=$nbrePages'><i class='fa fa-angle-double-right'></i></a>";
+                                    echo "<a class='page-link' href='?nbr_article=$nbr_article&page=$nbrePages'><i class='fa fa-angle-double-right'></i></a>";
                                 }
                                 ?>
                             </li>
