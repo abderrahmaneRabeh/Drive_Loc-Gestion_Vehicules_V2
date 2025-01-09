@@ -5,6 +5,7 @@ require_once '../../Models/Article.php';
 require_once '../../Models/Theme.php';
 require_once '../../Models/Favorite.php';
 require_once '../../Models/Database.php';
+require_once '../../Models/Tag.php';
 checkBlogPage();
 
 
@@ -20,6 +21,7 @@ $db = new Database();
 $article = new Article($db->connect_Db());
 $theme = new Theme($db->connect_Db());
 $favorite = new Favorite($db->connect_Db());
+$tag = new Tag($db->connect_Db());
 
 if (isset($_GET['nbr_article'])) {
     $nbr_article = $_GET['nbr_article'];
@@ -31,6 +33,7 @@ $article->setLinesParPage(lignes_par_page: $nbr_article);
 $listThemes = $theme->getThemes();
 $listArticles = $article->All_Articles($page);
 $listFavorite = $favorite->getFavorites($_SESSION['user']['id_utilisateur']);
+$listTags = $tag->get_Tags();
 
 // echo "<pre>";
 // print_r(value: $listFavorite);
@@ -205,7 +208,8 @@ $nbrePages = ceil($nbrArticles / $lignesParPage);
                 <div class="col-md-6 text-left">
                     <form action="./List_Articles.php" method="GET">
                         <div class="input-group">
-                            <input type="text" name="search" class="form-control" placeholder="Rechercher un article">
+                            <input type="text" name="search" class="form-control" placeholder="Rechercher un article"
+                                id="searchInput">
                             <div class="input-group-append">
                                 <button class="btn btn-primary" type="submit">
                                     <i class="fas fa-search"></i>
@@ -217,9 +221,9 @@ $nbrePages = ceil($nbrArticles / $lignesParPage);
                 <div class="col-md-6 text-right">
                     <div class="d-inline-block mr-3">
                         <select class="form-control" name="theme_filter" id="theme_filter">
-                            <option value="">Filtrer par thème</option>
-                            <?php foreach ($listThemes as $theme): ?>
-                                <option value="<?php echo $theme['id_theme']; ?>"><?php echo $theme['theme_name']; ?>
+                            <option value="">Filtrer par Tag</option>
+                            <?php foreach ($listTags as $tag): ?>
+                                <option value="<?php echo $tag['id_tag']; ?>"><?php echo $tag['tag_name']; ?>
                                 </option>
                             <?php endforeach; ?>
                         </select>
@@ -241,9 +245,9 @@ $nbrePages = ceil($nbrArticles / $lignesParPage);
                 }
                 ?>
             </div>
-            <div class="row">
+            <div class="row" id="articlesList">
                 <?php foreach ($listArticles as $article): ?>
-                    <div class="col-md-4 mb-4">
+                    <div class="col-md-4 mb-4" id="article-<?= $article['id_article']; ?>">
                         <div class="card border-0"
                             style="overflow: hidden; border-radius: 5px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
                             <img class="card-img-top" src="<?= $article['image_article']; ?>" alt="Image de l'article"
@@ -417,6 +421,56 @@ $nbrePages = ceil($nbrArticles / $lignesParPage);
 
     <!-- Template Javascript -->
     <script src="../../assets/js/main.js"></script>
+    <script>
+        let listFavorite = <?= json_encode(array_column($listFavorite, 'id_article')); ?>;
+
+        let searchInput = document.getElementById("searchInput");
+        let articlesList = document.getElementById("articlesList");
+
+        searchInput.addEventListener("input", function () {
+            let search = searchInput.value;
+            if (search.length > 0) {
+                fetch(`./FetchSearchArticleByTitle.php?search=${search}`)
+                    .then(response => response.json())
+                    .then(articles => {
+                        articlesList.innerHTML = "";
+                        articles.forEach(article => {
+
+                            let isFavorited = false;
+                            if (listFavorite.includes(article.id_article)) {
+                                isFavorited = true;
+                            }
+
+                            articlesList.innerHTML += `
+                               <div class="col-md-4 mb-4" id="article-${article.id_article}">
+                                   <div class="card border-0" style="overflow: hidden; border-radius: 5px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
+                                       <img class="card-img-top" src="${article.image_article}" alt="Image de l'article" style="height: 180px; object-fit: cover;">
+                                       <div class="card-body" style="padding: 20px;">
+                                           <h5 class="card-title text-dark" style="font-weight: 600; font-size: 1.2rem;">
+                                               ${article.article_title.substring(0, 40)}...
+                                           </h5>
+                                           <p class="card-text text-secondary" style="font-size: 0.95rem; line-height: 1.5;">
+                                               ${article.article_description.substring(0, 70)}...
+                                           </p>
+                                           <div class="d-flex justify-content-between align-items-center">
+                                               <a href="./ArticleDetails.php?article_id=${article.id_article}" class="btn btn-primary" style="font-size: 0.9rem; padding: 10px 20px; border-radius: 5px;">En savoir plus</a>
+                                               ${isFavorited ?
+                                    `<a href="../../Controllers/unfavoriteArticle.php?article_id=${article.id_article}" class='btn btn-link'><i class="fas fa-heart"></i></a>`
+                                    :
+                                    `<a href="../../Controllers/favoriteArticle.php?article_id=${article.id_article}" class='btn btn-link'><i class="far fa-heart"></i></a>`
+                                }
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+                           `;
+                        });
+                    })
+            } else {
+                location.reload();
+            }
+        });
+    </script>
 </body>
 
 </html>

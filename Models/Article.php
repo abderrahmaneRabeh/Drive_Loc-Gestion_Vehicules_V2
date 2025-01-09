@@ -137,4 +137,14 @@ class Article
         $quey->execute();
         return $quey->rowCount();
     }
+
+    public function Rechercher_Article($search)
+    {
+        $search = "%$search%";
+        $query = $this->Conx_DataBase->prepare("SELECT * FROM articles WHERE article_title LIKE :search");
+        $query->bindParam(':search', $search);
+        $query->execute();
+        $articles = $query->fetchAll();
+        return $articles;
+    }
 }
