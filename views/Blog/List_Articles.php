@@ -234,9 +234,14 @@ $nbrePages = ceil($nbrArticles / $lignesParPage);
                                 <p class="card-text text-secondary" style="font-size: 0.95rem; line-height: 1.5;">
                                     <?= substr($article['article_description'], 0, 70) . '...'; ?>
                                 </p>
-                                <a href="./ArticleDetails.php?article_id=<?= $article['id_article']; ?>"
-                                    class="btn btn-primary"
-                                    style="font-size: 0.9rem; padding: 10px 20px; border-radius: 5px;">En savoir plus</a>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <a href="./ArticleDetails.php?article_id=<?= $article['id_article']; ?>"
+                                        class="btn btn-primary"
+                                        style="font-size: 0.9rem; padding: 10px 20px; border-radius: 5px;">En savoir
+                                        plus</a>
+                                    <a href="../../Controllers/favoriteArticle.php" class="btn btn-link"><i
+                                            class="fas fa-heart"></i></a>
+                                </div>
                             </div>
                         </div>
                     </div>
