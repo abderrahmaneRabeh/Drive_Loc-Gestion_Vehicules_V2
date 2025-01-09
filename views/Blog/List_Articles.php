@@ -15,8 +15,6 @@ if (isset($_GET['page'])) {
     $page = 1;
 }
 
-
-
 $db = new Database();
 $article = new Article($db->connect_Db());
 $theme = new Theme($db->connect_Db());
@@ -31,7 +29,15 @@ if (isset($_GET['nbr_article'])) {
 $article->setLinesParPage(lignes_par_page: $nbr_article);
 
 $listThemes = $theme->getThemes();
-$listArticles = $article->All_Articles($page);
+
+if (isset($_POST['tag_filter'])) {
+    $filter = $_POST['tag_filter'];
+    $listArticles = $article->All_Articles($page, $filter);
+} else {
+    $listArticles = $article->All_Articles($page);
+}
+
+
 $listFavorite = $favorite->getFavorites($_SESSION['user']['id_utilisateur']);
 $listTags = $tag->get_Tags();
 
@@ -220,13 +226,23 @@ $nbrePages = ceil($nbrArticles / $lignesParPage);
                 </div>
                 <div class="col-md-6 text-right">
                     <div class="d-inline-block mr-3">
-                        <select class="form-control" name="theme_filter" id="theme_filter">
-                            <option value="">Filtrer par Tag</option>
-                            <?php foreach ($listTags as $tag): ?>
-                                <option value="<?php echo $tag['id_tag']; ?>"><?php echo $tag['tag_name']; ?>
-                                </option>
-                            <?php endforeach; ?>
-                        </select>
+                        <form action="./List_Articles.php" method="POST">
+                            <select class="form-control" name="tag_filter" id="tag_filter"
+                                onchange="this.form.submit()">
+                                <option value="0" selected>Tous Tags</option>
+                                <?php foreach ($listTags as $tag): ?>
+                                    <?php if ($filter == $tag['id_tag']): ?>
+                                        <option value="<?php echo $tag['id_tag']; ?>" selected>
+                                            <?php echo $tag['tag_name']; ?>
+                                        </option>
+                                    <?php else: ?>
+                                        <option value="<?php echo $tag['id_tag']; ?>">
+                                            <?php echo $tag['tag_name']; ?>
+                                        </option>
+                                    <?php endif ?>
+                                <?php endforeach; ?>
+                            </select>
+                        </form>
                     </div>
                     <a href="AjouterArticle__form.php" class="btn btn-primary">
                         <i class="fas fa-plus-circle"></i> Ajouter un article

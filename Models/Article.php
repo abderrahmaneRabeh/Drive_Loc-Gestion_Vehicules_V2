@@ -29,10 +29,17 @@ class Article
         return $result['total'];
     }
 
-    public function All_Articles($page = 1)
+    public function All_Articles($page = 1, $tagFilter = 0)
     {
         $offset = ($page - 1) * $this->lignes_par_page;
-        $query = $this->Conx_DataBase->prepare("SELECT * FROM articles, themes, utilisateurs WHERE articles.id_theme = themes.id_theme AND articles.utilisateur_id = utilisateurs.id_utilisateur LIMIT :offset, :limit");
+
+        if ($tagFilter > 0) {
+            $query = $this->Conx_DataBase->prepare("SELECT * FROM articles a JOIN tag_article ta ON a.id_article = ta.id_article JOIN tags t ON t.id_tag = ta.id_tag WHERE t.id_tag = :tag LIMIT :offset, :limit");
+            $query->bindParam(':tag', $tagFilter);
+        } else {
+            $query = $this->Conx_DataBase->prepare("SELECT * FROM articles, themes, utilisateurs WHERE articles.id_theme = themes.id_theme AND articles.utilisateur_id = utilisateurs.id_utilisateur LIMIT :offset, :limit");
+        }
+
         $query->bindParam(':offset', $offset, PDO::PARAM_INT);
         $query->bindParam(':limit', var: $this->lignes_par_page, type: PDO::PARAM_INT);
         $query->execute();
