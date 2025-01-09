@@ -116,9 +116,10 @@ if (isset($_GET['id_theme'])) {
                                     List Articles
                                 </a>
                                 <a href="./List_Themes.php" class="dropdown-item">List Thèmes</a>
+                                <a href="./List_FavorieArticles.php" class="dropdown-item">Favorie Articles</a>
                             </div>
                         </div>
-                        <a href="./List_VoituresCategory.php" class="nav-item nav-link">Categories</a>
+                        <a href="../List_VoituresCategory.php" class="nav-item nav-link">Categories</a>
                         <?php if (isset($_SESSION['user']) && $_SESSION['role'] == 2): ?>
                             <div class="nav-item dropdown">
                                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">

@@ -1,16 +1,14 @@
 <?php
 session_start();
 require_once '../../middleware/Check_user_connexion.php';
-require_once '../../Models/Theme.php';
+require_once '../../Models/Favorite.php';
 require_once '../../Models/Database.php';
 
 $db = new Database();
 
-$Theme = new Theme($db->connect_Db());
-$ListThemes = $Theme->getThemes();
+$favorite = new Favorite($db->connect_Db());
 
-
-
+$listFavorite = $favorite->UserFavoriteArticle($_SESSION['user']['id_utilisateur']);
 ?>
 
 <!DOCTYPE html>
@@ -19,8 +17,7 @@ $ListThemes = $Theme->getThemes();
 <head>
     <meta charset="utf-8">
     <title>DRIVE-LOC -- List Themes</title>
-    <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <meta content="Free HTML Templates" name="keywords">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport    ">
     <meta content="Free HTML Templates" name="description">
 
     <!-- Favicon -->
@@ -43,6 +40,17 @@ $ListThemes = $Theme->getThemes();
 
     <!-- Template Stylesheet -->
     <link href="../../../../assets/css/style.css" rel="stylesheet">
+    <style>
+        .card:hover {
+            transform: translateY(-5px);
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+        }
+
+        .card-title {
+            margin-bottom: 10px;
+        }
+    </style>
 </head>
 
 <body>
@@ -95,18 +103,18 @@ $ListThemes = $Theme->getThemes();
                         <a href="../../index.php" class="nav-item nav-link">Accueil</a>
                         <a href="../List_Voitures.php" class="nav-item nav-link">List Voitures</a>
                         <div class="nav-item dropdown">
-                            <a href="#" class="nav-link active dropdown-toggle" data-toggle="dropdown">
+                            <a href="#" class="nav-link dropdown-toggle active" data-toggle="dropdown">
                                 Blog
                             </a>
                             <div class="dropdown-menu rounded-0 m-0">
                                 <a href="./List_Articles.php" class="dropdown-item">
                                     List Articles
                                 </a>
-                                <a href="./List_Themes.php" class="dropdown-item active">List Thèmes</a>
-                                <a href="./List_FavorieArticles.php" class="dropdown-item">Favorie Articles</a>
+                                <a href="./List_Themes.php" class="dropdown-item">List Thèmes</a>
+                                <a href="./List_FavorieArticles.php" class="dropdown-item active">Favorie Articles</a>
                             </div>
                         </div>
-                        <a href="./List_VoituresCategory.php" class="nav-item nav-link">Categories</a>
+                        <a href="../List_VoituresCategory.php" class="nav-item nav-link">Categories</a>
                         <?php if (isset($_SESSION['user']) && $_SESSION['role'] == 2): ?>
                             <div class="nav-item dropdown">
                                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
@@ -150,25 +158,44 @@ $ListThemes = $Theme->getThemes();
     </div>
     <!-- Navbar End -->
 
+
     <!-- Rent A Car Start -->
     <div class="container-fluid py-5">
-        <div class="container pt-5 pb-3">
-            <h1 class="display-4 text-uppercase text-center mb-5">Explorer les differents themes</h1>
+        <div class="container  pb-3">
 
-            <div class="row">
-                <?php foreach ($ListThemes as $theme): ?>
-                    <div class="col-lg-4 mb-2" id="<?= $theme['id_theme']; ?>">
-                        <div class="rent-item mb-4">
-                            <a href="./ThemeArticles.php?id_theme=<?= $theme['id_theme']; ?>"
-                                style="text-decoration: none;">
-                                <h4 class="text-uppercase mb-1"><?= $theme['theme_name']; ?></h4>
-                            </a>
-                            <div class="d-flex justify-content-center">
+            <?php if (!empty($listFavorite)): ?>
+                <h2 class="display-5 text-uppercase text-center mb-5">Liste des articles favoris</h2>
+                <div class="row">
+
+                    <?php foreach ($listFavorite as $article): ?>
+                        <div class="col-md-4 mb-4">
+                            <div class="card border-0"
+                                style="overflow: hidden; border-radius: 5px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
+                                <img class="card-img-top" src="<?= $article['image_article']; ?>" alt="Image de l'article"
+                                    style="height: 180px; object-fit: cover;">
+                                <div class="card-body" style="padding: 20px;">
+                                    <h5 class="card-title text-dark" style="font-weight: 600; font-size: 1.2rem;">
+                                        <?= substr($article['article_title'], 0, 40) . '...'; ?>
+                                    </h5>
+                                    <p class="card-text text-secondary" style="font-size: 0.95rem; line-height: 1.5;">
+                                        <?= substr($article['article_description'], 0, 70) . '...'; ?>
+                                    </p>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <a href="./ArticleDetails.php?article_id=<?= $article['id_article']; ?>"
+                                            class="btn btn-primary"
+                                            style="font-size: 0.9rem; padding: 10px 20px; border-radius: 5px;">En savoir
+                                            plus</a>
+                                        <a href="../../Controllers/unfavoriteArticle.php?article_id=<?= $article['id_article']; ?>"
+                                            class="btn btn-link"><i class="far fa-heart"></i></a>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                <?php endforeach; ?>
-            </div>
+                    <?php endforeach; ?>
+                </div>
+            <?php else: ?>
+                <p class="text-center">Aucun article favoris.</p>
+            <?php endif; ?>
         </div>
     </div>
 

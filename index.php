@@ -95,6 +95,9 @@ Check_Home_Page();
                                     List Articles
                                 </a>
                                 <a href="./views/Blog/List_Themes.php" class="dropdown-item">List Thème</a>
+                                <a href="./views/Blog/List_FavorieArticles.php" class="dropdown-item">Favorie
+                                    Articles</a>
+
                             </div>
                         </div>
                         <a href="./views/List_VoituresCategory.php" class="nav-item nav-link">Categories</a>

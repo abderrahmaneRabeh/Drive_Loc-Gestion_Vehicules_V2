@@ -4,12 +4,15 @@ require_once '../middleware/Check_user_connexion.php';
 require_once '../Controllers/ListVoitureController.php';
 require_once '../Controllers/ListCategories.php';
 require_once '../Controllers/getVoituresByCategory.php';
+require_once '../Models/Database.php';
+
+$db = new Database();
 Check_List_Voiture_Page();
 
-$categoriesController = new ListCategoriesController();
+$categoriesController = new ListCategoriesController($db->connect_Db());
 $categories = $categoriesController->getCategories();
 
-$voituresController = new ListVoitureController();
+$voituresController = new ListVoitureController($db->connect_Db());
 $listVoiture = $voituresController->All_Voitures();
 
 ?>
@@ -118,6 +121,7 @@ $listVoiture = $voituresController->All_Voitures();
                                     List Articles
                                 </a>
                                 <a href="./Blog/List_Themes.php" class="dropdown-item">List Thèmes</a>
+                                <a href="./Blog/List_FavorieArticles.php" class="dropdown-item">Favorie Articles</a>
                             </div>
                         </div>
                         <a href="./List_VoituresCategory.php" class="nav-item nav-link active">Categories</a>

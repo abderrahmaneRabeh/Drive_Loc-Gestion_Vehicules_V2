@@ -148,6 +148,8 @@ $nbrePages = ceil($nbrArticles / $lignesParPage);
                                     List Articles
                                 </a>
                                 <a href="./List_Themes.php" class="dropdown-item">List Thèmes</a>
+                                <a href="./List_FavorieArticles.php" class="dropdown-item">Favorie Articles</a>
+
                             </div>
                         </div>
                         <a href="../List_VoituresCategory.php" class="nav-item nav-link">Categories</a>
@@ -258,10 +260,13 @@ $nbrePages = ceil($nbrArticles / $lignesParPage);
                                         class="btn btn-primary"
                                         style="font-size: 0.9rem; padding: 10px 20px; border-radius: 5px;">En savoir
                                         plus</a>
-
-                                    <?php if ($article) ?>
-                                    <a href="../../Controllers/favoriteArticle.php?article_id=<?= $article['id_article']; ?>"
-                                        class="btn btn-link"><i class="fas fa-heart"></i></a>
+                                    <?php if (in_array($article['id_article'], array_column($listFavorite, 'id_article'))): ?>
+                                        <a href="../../Controllers/unfavoriteArticle.php?article_id=<?= $article['id_article']; ?>"
+                                            class="btn btn-link"><i class="fas fa-heart"></i></a>
+                                    <?php else: ?>
+                                        <a href="../../Controllers/favoriteArticle.php?article_id=<?= $article['id_article']; ?>"
+                                            class="btn btn-link"><i class="far fa-heart"></i></a>
+                                    <?php endif; ?>
                                 </div>
                             </div>
                         </div>

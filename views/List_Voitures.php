@@ -133,6 +133,7 @@ $LignesSelectioner = ceil($totalLignes / $LigneParPage);
                                     List Articles
                                 </a>
                                 <a href="./Blog/List_Themes.php" class="dropdown-item">List Thèmes</a>
+                                <a href="./Blog/List_FavorieArticles.php" class="dropdown-item">Favorie Articles</a>
                             </div>
                         </div>
                         <a href="./List_VoituresCategory.php" class="nav-item nav-link">Categories</a>
