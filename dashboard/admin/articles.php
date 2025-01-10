@@ -7,9 +7,19 @@ Dashboard_admin_check_roleConnect();
 
 $db = new Database();
 
+if (isset($_GET['page'])) {
+    $page = $_GET['page'];
+} else {
+    $page = 1;
+}
 
 $article = new Article($db->connect_Db());
-$listArticles = $article->All_Articles();
+$listArticles = $article->All_Articles($page);
+
+// pagination
+$nbrArticles = $article->Nbr_Articles();
+$lignesParPage = $article->getLinesParPage();
+$nbrePages = ceil($nbrArticles / $lignesParPage);
 
 
 ?>
@@ -25,13 +35,15 @@ $listArticles = $article->All_Articles();
 
     <link rel="stylesheet" href="../css/style.css">
     <script defer src="../js/main.js"></script>
-    <link href="/assets/img/vendor-7.png" rel="icon">
+    <link href="../../assets/img/vendor-7.png" rel="icon">
 
 
     <link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="../css/font-awesome.css">
     <link rel="icon" href="../../assets/images/logo.png" type="image/x-icon">
     <link rel="stylesheet" href="../css/Reservation.css">
+    <link href="../../assets/css/style.css" rel="stylesheet">
+    <link href="../../assets/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.0/css/all.min.css" rel="stylesheet">
 
 
@@ -288,43 +300,43 @@ $listArticles = $article->All_Articles();
                 <!-- end Table -->
 
                 <!-- Pagination -->
-                <!-- <div class="container-fluid pt-4 pb-3">
+                <div class="container-fluid pt-4 pb-3">
                     <div class="d-flex justify-content-center">
                         <nav>
-                            <ul class="pagination justify-content-center mb-0">
+                            <ul class="pagination justify-content-start mb-0">
                                 <li class="page-item">
                                     <?php
                                     if ($page > 1) {
                                         $previous = $page - 1;
-                                        echo "<a class='page-link' href='?page=$previous' style='background-color: #ffc107; color: #000;'><i class='fa fa-angle-double-left'></i></a>";
+                                        echo "<a class='page-link' href='?page=$previous'><i class='fa fa-angle-double-left'></i></a>";
                                     } else {
-                                        echo "<a class='page-link' href='?page=1' style='background-color: #6c757d; color: #fff; cursor: not-allowed;'><i class='fa fa-angle-double-left'></i></a>";
+                                        echo "<a class='page-link' href='?page=1'><i class='fa fa-angle-double-left'></i></a>";
                                     }
                                     ?>
                                 </li>
                                 <?php
-                                for ($i = 1; $i <= $LignesSelectioner; $i++) {
+                                for ($i = 1; $i <= $nbrePages; $i++) {
                                     if ($page == $i) {
-                                        echo "<li class='page-item active'><a class='page-link' href='#' style='background-color: #28a745; border-color: #28a745;'>$i<span class='sr-only'></span></a></li>";
+                                        echo "<li class='page-item active'><a class='page-link' href='#'>$i<span class='sr-only'></span></a></li>";
                                     } else {
-                                        echo "<li class='page-item'><a class='page-link' href='?page=$i' style='background-color: #1a1a2e; color: #fff; border-color: #444;'>$i</a></li>";
+                                        echo "<li class='page-item'><a class='page-link' href='?page=$i'>$i</a></li>";
                                     }
                                 }
                                 ?>
                                 <li class="page-item">
                                     <?php
-                                    if ($page < $LignesSelectioner) {
+                                    if ($page < $nbrePages) {
                                         $suivant = $page + 1;
-                                        echo "<a class='page-link' href='?page=$suivant' style='background-color: #ffc107; color: #000;'><i class='fa fa-angle-double-right'></i></a>";
+                                        echo "<a class='page-link' href='?page=$suivant'><i class='fa fa-angle-double-right'></i></a>";
                                     } else {
-                                        echo "<a class='page-link' href='?page=$LignesSelectioner' style='background-color: #6c757d; color: #fff; cursor: not-allowed;'><i class='fa fa-angle-double-right'></i></a>";
+                                        echo "<a class='page-link' href='?page=$nbrePages'><i class='fa fa-angle-double-right'></i></a>";
                                     }
                                     ?>
                                 </li>
                             </ul>
                         </nav>
                     </div>
-                </div> -->
+                </div>
 
             </div>
         </div>
