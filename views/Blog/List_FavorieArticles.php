@@ -168,29 +168,31 @@ $listFavorite = $favorite->UserFavoriteArticle($_SESSION['user']['id_utilisateur
                 <div class="row">
 
                     <?php foreach ($listFavorite as $article): ?>
-                        <div class="col-md-4 mb-4">
-                            <div class="card border-0"
-                                style="overflow: hidden; border-radius: 5px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
-                                <img class="card-img-top" src="<?= $article['image_article']; ?>" alt="Image de l'article"
-                                    style="height: 180px; object-fit: cover;">
-                                <div class="card-body" style="padding: 20px;">
-                                    <h5 class="card-title text-dark" style="font-weight: 600; font-size: 1.2rem;">
-                                        <?= substr($article['article_title'], 0, 40) . '...'; ?>
-                                    </h5>
-                                    <p class="card-text text-secondary" style="font-size: 0.95rem; line-height: 1.5;">
-                                        <?= substr($article['article_description'], 0, 70) . '...'; ?>
-                                    </p>
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <a href="./ArticleDetails.php?article_id=<?= $article['id_article']; ?>"
-                                            class="btn btn-primary"
-                                            style="font-size: 0.9rem; padding: 10px 20px; border-radius: 5px;">En savoir
-                                            plus</a>
-                                        <a href="../../Controllers/unfavoriteArticle.php?article_id=<?= $article['id_article']; ?>"
-                                            class="btn btn-link"><i class="far fa-heart"></i></a>
+                        <?php if ($article['active_article'] == 1): ?>
+                            <div class="col-md-4 mb-4">
+                                <div class="card border-0"
+                                    style="overflow: hidden; border-radius: 5px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
+                                    <img class="card-img-top" src="<?= $article['image_article']; ?>" alt="Image de l'article"
+                                        style="height: 180px; object-fit: cover;">
+                                    <div class="card-body" style="padding: 20px;">
+                                        <h5 class="card-title text-dark" style="font-weight: 600; font-size: 1.2rem;">
+                                            <?= substr($article['article_title'], 0, 40) . '...'; ?>
+                                        </h5>
+                                        <p class="card-text text-secondary" style="font-size: 0.95rem; line-height: 1.5;">
+                                            <?= substr($article['article_description'], 0, 70) . '...'; ?>
+                                        </p>
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <a href="./ArticleDetails.php?article_id=<?= $article['id_article']; ?>"
+                                                class="btn btn-primary"
+                                                style="font-size: 0.9rem; padding: 10px 20px; border-radius: 5px;">En savoir
+                                                plus</a>
+                                            <a href="../../Controllers/unfavoriteArticle.php?article_id=<?= $article['id_article']; ?>"
+                                                class="btn btn-link"><i class="far fa-heart"></i></a>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        <?php endif; ?>
                     <?php endforeach; ?>
                 </div>
             <?php else: ?>
