@@ -62,14 +62,14 @@ class Commentaire
         return $query->rowCount();
     }
 
-    public function DeleteCommentairesByArticle($id)
-    {
-        $query = $this->Conx_DataBase->prepare("DELETE FROM commentaires WHERE id_comment = :id");
-        $query->bindParam(':id', $id);
-        $query->execute();
-        return $query->rowCount();
+    // public function DeleteCommentairesByArticle($id)
+    // {
+    //     $query = $this->Conx_DataBase->prepare("DELETE FROM commentaires WHERE id_comment = :id");
+    //     $query->bindParam(':id', $id);
+    //     $query->execute();
+    //     return $query->rowCount();
 
-    }
+    // }
 
 
 }
