@@ -106,7 +106,18 @@ if (isset($_GET['id_theme'])) {
                 <div class="collapse navbar-collapse justify-content-between px-3" id="navbarCollapse">
                     <div class="navbar-nav ml-auto py-0">
                         <a href="../../index.php" class="nav-item nav-link">Accueil</a>
-                        <a href="../List_Voitures.php" class="nav-item nav-link">List Voitures</a>
+
+                        <div class="nav-item dropdown">
+                            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
+                                Voitures
+                            </a>
+                            <div class="dropdown-menu rounded-0 m-0">
+                                <a href="../List_Voitures.php" class="dropdown-item">
+                                    List Voitures
+                                </a>
+                                <a href="../List_VoituresCategory.php" class="dropdown-item">Categories</a>
+                            </div>
+                        </div>
                         <div class="nav-item dropdown">
                             <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
                                 Blog
@@ -119,7 +130,6 @@ if (isset($_GET['id_theme'])) {
                                 <a href="./List_FavorieArticles.php" class="dropdown-item">Favorie Articles</a>
                             </div>
                         </div>
-                        <a href="../List_VoituresCategory.php" class="nav-item nav-link">Categories</a>
                         <?php if (isset($_SESSION['user']) && $_SESSION['role'] == 2): ?>
                             <div class="nav-item dropdown">
                                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">

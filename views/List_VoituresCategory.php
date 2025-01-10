@@ -111,7 +111,18 @@ $listVoiture = $voituresController->All_Voitures();
                 <div class="collapse navbar-collapse justify-content-between px-3" id="navbarCollapse">
                     <div class="navbar-nav ml-auto py-0">
                         <a href="../index.php" class="nav-item nav-link">Accueil</a>
-                        <a href="./List_Voitures.php" class="nav-item nav-link">List Voitures</a>
+                        <div class="nav-item dropdown">
+                            <a href="#" class="nav-link dropdown-toggle active" data-toggle="dropdown">
+                                Voitures
+                            </a>
+                            <div class="dropdown-menu rounded-0 m-0">
+                                <a href="./List_Voitures.php" class="dropdown-item">
+                                    List Voitures
+                                </a>
+                                <a href="./List_VoituresCategory.php" class="dropdown-item active">Categories</a>
+                            </div>
+                        </div>
+
                         <div class="nav-item dropdown">
                             <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
                                 Blog
@@ -124,7 +135,6 @@ $listVoiture = $voituresController->All_Voitures();
                                 <a href="./Blog/List_FavorieArticles.php" class="dropdown-item">Favorie Articles</a>
                             </div>
                         </div>
-                        <a href="./List_VoituresCategory.php" class="nav-item nav-link active">Categories</a>
                         <?php if (isset($_SESSION['user']) && $_SESSION['role'] == 2): ?>
                             <div class="nav-item dropdown">
                                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
@@ -166,26 +176,12 @@ $listVoiture = $voituresController->All_Voitures();
         </div>
     </div>
     <!-- Navbar End -->
-
-
-    <!-- Page Header Start -->
-    <div class="container-fluid page-header mt-5">
-        <h1 class="display-3 text-uppercase text-white mb-3">Explorez notre catalogue</h1>
-        <div class="d-inline-flex text-white">
-            <h6 class="text-uppercase m-0"><a class="text-white" href="">Home</a></h6>
-            <h6 class="text-body m-0 px-3">/</h6>
-            <h6 class="text-uppercase text-body m-0">List Voitures</h6>
-        </div>
-    </div>
-    <!-- Page Header Start -->
-
-
     <!-- Rent A Car Start -->
 
 
     <div class="container-fluid py-5">
-        <div class="container pt-5 pb-3">
-            <h1 class="display-4 text-uppercase text-center mb-5">Trouvez votre voiture</h1>
+        <div class="container pb-3">
+            <h1 class="display-5 text-uppercase text-center mb-5">Trouvez votre voiture</h1>
             <!-- Conteneur déroulable horizontalement -->
             <div class="horizontal-scroll">
                 <?php foreach ($categories as $category): ?>
